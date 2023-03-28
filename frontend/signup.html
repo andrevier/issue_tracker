@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Issue Tracker | Sign up</title>
+    <link rel="stylesheet" href="packages/node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+  <div id="signup-page">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" id="login-page-navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">My Issue Tracker</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card px-5 py-5" style="border-radius: 1rem">
+            <div class="card-title text-center" style="font-size:large; font:bolder">Let's go!</div>
+            <form>
+              <div class="mb-3">
+                <label for="userFullName" class="form-label">Full name</label>
+                <input type="text" class="form-control" id="newUserFullNameId" placeholder="Your name">              
+              </div>
+              <div class="mb-3">
+                <label for="userEmailAddress" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="newUserEmailId" placeholder="Your email">              
+              </div>
+              <div class="mb-5">
+                <label for="userPassword" class="form-label">Choose a password</label>
+                <input type="password" class="form-control" id="newUserPasswordId">
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center h-100 py-5 text-center">
+        <label for="" id="returnToLoginId"><a href="./login.html">Return to login page.</a></label>
+      </div>
+    </div>
+  </div>
+    <script src="packages/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+</body>
+</html>
