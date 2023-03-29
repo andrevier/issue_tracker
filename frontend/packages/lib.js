@@ -40,9 +40,10 @@ function createNewProject() {
         <td>${newProjectID.value}</td>
         <td>${newProjectDeadline.value}</td>
         <td>
-            <div >
-            <button type="button" class="btn btn-outline-danger btn-sm">x</button>
-            </div>
+        <div >
+        <button type="button" class="btn btn-link"><img src="packages/node_modules/bootstrap-icons/icons/pencil.svg" alt="Edit" width="20"></button>
+        <button type="button" class="btn btn-link"><img src="packages/node_modules/bootstrap-icons/icons/trash3.svg" alt="Edit" width="20"></button>
+        </div>
         </td>
     </tr>`;
     console.log(row);
