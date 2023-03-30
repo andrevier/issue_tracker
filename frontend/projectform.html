@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Issue Tracker | Projects</title>
+
+    <link rel="stylesheet" href="packages/node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+    <div id="projectForm-page">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" id="page-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">My Issue Tracker</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./issues.html">Issues</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./agileboard.html">Agile board</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./projects.html">Projects</a>
+                        </li>
+                    </ul>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            user name
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container py-5 h-100">
+            <div class="row justify-content-center">
+                <div class="col col-lg-6">
+                    <h2>Project</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="projectName">Name</label>
+                            <input type="text" class="form-control" id="projectName" placeholder="A beautiful name">
+                        </div>
+                        <div class="form-group">
+                            <div class="row align-items-center py-3">
+                                <div class="col-8">
+                                    <label for="projectId" class="col-form-label">ID</label>
+                                    <input type="text" id="projectId" class="form-control">
+                                </div>
+                                <div class="col-4">
+                                    <label for="projectDeadline" class="col-form-label">Deadline</label>
+                                    <input type="date" id="projectDeadline" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectDescription">Description</label>
+                            <textarea class="form-control" id="projectDescription" rows="8"
+                                placeholder="This project is about..."></textarea>
+                        </div>
+                        <hr class="my-4">
+                        <button type="submit" class="btn btn-primary" onclick="">Create</button>
+                        <button type="submit" class="btn btn-secondary" onclick="">Cancel</button>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="row" id="projectForm">
+                <div class="mb-3">
+                    <label for="newProjectName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="newProjectName" placeholder="A beautiful name">
+                </div>
+                <div class="row g-3 align-items-center py-3">
+                    <div class="col-auto">
+                        <label for="newProjectId" class="col-form-label">ID</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="newProjectID" class="form-control">
+                    </div>
+                    <div class="col-auto">
+                        <label for="newProjectDeadline" class="col-form-label">Deadline</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="date" id="newProjectDeadline" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="newProjectDescription" class="form-label">Description</label>
+                    <textarea class="form-control" id="newProjectDescription" rows="5"
+                        placeholder="This project is about..."></textarea>
+                </div>            
+            </div>
+             <hr>       
+            <div class="row" id="projectFormButtons">
+                <button class="btn btn-primary" onclick="createNewProject()">Create</button>
+                <button class="btn btn-secondary" onclick="returnToProjectTable()">Cancel</button>
+            </div> -->
+        </div>
+    </div>
+    <script src="packages/lib.js"></script>
+    <script src="packages/node_modules/@popperjs/core/dist/umd/popper.js"></script>
+    <script src="packages/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+</body>
+
+</html>
