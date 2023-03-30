@@ -11,6 +11,9 @@ class AppController {
     userLogin(email, password) {
         // Login logic.
         if (this.user.email === email && this.user.password === password) {
+
+            window.localStorage.setItem('user', this.user);
+            
             window.location.href= './projects.html';
         } else {
             console.log('wrong user name or email.');
@@ -31,6 +34,9 @@ class AppController {
             password: password,
             projects: []
         }
+
+        window.localStorage.setItem('user', this.user);
+
         window.location.href='./projects.html';
     }
 

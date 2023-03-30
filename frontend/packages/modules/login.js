@@ -1,10 +1,11 @@
-// Main application function.
+// Login logic.
 
 import AppController from './AppController.js';
-import User from './model/user.js';
-import fakeUser from './fakeUser.js';
 
 var appController = new AppController();
+
+var userEmail = document.getElementById("userEmail");
+var userPassword = document.getElementById("userPassword");
 
 // Default login data for development.
 const user = {
@@ -20,19 +21,9 @@ loginButton.addEventListener("click", function (e) {
 
     // Basic authentication.
     console.log('login button clicked');
-    appController.userLogin(user.email, user.password);        
+    console.log(userEmail.value, userPassword.value);
+    appController.userLogin(userEmail.value, userPassword.value);        
+    //appController.userLogin(user.email, user.password);
 });
 
-// // Signup button event handler.
-// const signupButton = document.getElementById("signupButton");
-// signupButton.addEventListener("click", function (e) {
-//     e.preventDefault();
-//     console.log('signup button clicked');
-//     appController.userSignup(
-//         document.getElementById("userFullName").value, 
-//         document.getElementById("userEmail").value,
-//         document.getElementById("userPassword").value);
-// });
-
-// let appController = new AppController();
 
