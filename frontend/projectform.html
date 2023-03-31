@@ -58,8 +58,8 @@
                         <div class="form-group">
                             <div class="row align-items-center py-3">
                                 <div class="col-8">
-                                    <label for="projectId" class="col-form-label">ID</label>
-                                    <input type="text" id="projectId" class="form-control">
+                                    <label for="projectCode" class="col-form-label">Code</label>
+                                    <input type="text" id="projectCode" class="form-control">
                                 </div>
                                 <div class="col-4">
                                     <label for="projectDeadline" class="col-form-label">Deadline</label>
@@ -73,46 +73,16 @@
                                 placeholder="This project is about..."></textarea>
                         </div>
                         <hr class="my-4">
-                        <button type="submit" class="btn btn-primary" onclick="">Create</button>
-                        <button type="submit" class="btn btn-secondary" onclick="">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="createProjectButton">Create</button>
+                        <button type="submit" class="btn btn-secondary" id="cancelProjectButton">Cancel</button>
                     </form>
                 </div>
             </div>
-            <!-- <div class="row" id="projectForm">
-                <div class="mb-3">
-                    <label for="newProjectName" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="newProjectName" placeholder="A beautiful name">
-                </div>
-                <div class="row g-3 align-items-center py-3">
-                    <div class="col-auto">
-                        <label for="newProjectId" class="col-form-label">ID</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text" id="newProjectID" class="form-control">
-                    </div>
-                    <div class="col-auto">
-                        <label for="newProjectDeadline" class="col-form-label">Deadline</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="date" id="newProjectDeadline" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="newProjectDescription" class="form-label">Description</label>
-                    <textarea class="form-control" id="newProjectDescription" rows="5"
-                        placeholder="This project is about..."></textarea>
-                </div>            
-            </div>
-             <hr>       
-            <div class="row" id="projectFormButtons">
-                <button class="btn btn-primary" onclick="createNewProject()">Create</button>
-                <button class="btn btn-secondary" onclick="returnToProjectTable()">Cancel</button>
-            </div> -->
         </div>
     </div>
-    <script src="packages/lib.js"></script>
-    <script src="packages/node_modules/@popperjs/core/dist/umd/popper.js"></script>
-    <script src="packages/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="./packages/modules/projectsWindow.js" type="module"></script>
+    <script src="./packages/node_modules/@popperjs/core/dist/umd/popper.js"></script>
+    <script src="./packages/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </body>
 
 </html>

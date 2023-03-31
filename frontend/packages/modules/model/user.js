@@ -5,7 +5,7 @@ class User {
     name;
     email;
     password;
-    projects; // Array of Project objects
+    projects = []; // Array of Project objects
     
     constructor(id, name, email, password, projects) {
         this.id = id;
@@ -15,7 +15,8 @@ class User {
         this.projects = projects;
     }
 
-    addProject(project) {
+    addProject(projectName, projectCode, projectDeadline, projectDescription) {
+        let project = new Project(projectName, projectCode, projectDeadline, projectDescription);
         this.projects.push(project);
     }
 

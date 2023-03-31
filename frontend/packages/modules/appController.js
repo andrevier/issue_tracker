@@ -2,15 +2,25 @@ import Issue from './model/issue.js';
 import Project from './model/project.js';
 import User from './model/user.js';
 import fakeUser from './fakeUser.js';
+// import {v4 as uuidv4} from '../node_modules/uuid';
 
 class AppController {
     constructor() {
-        this.user = fakeUser;
+        this.user = new User(fakeUser.id, fakeUser.name, fakeUser.email, fakeUser.password, fakeUser.projects);
+    }
+
+    checkUserData(email, password) {
+        if (email === fakeUser.email && password === fakeUser.password) {
+            return true;
+        } else {
+            return false;
+        }    
     }
 
     userLogin(email, password) {
-        // Login logic.
-        if (this.user.email === email && this.user.password === password) {
+        // Check if the user exists in the database.
+
+        if (this.checkUserData(email, password)) {
 
             window.localStorage.setItem('user', this.user);
             
@@ -28,7 +38,7 @@ class AppController {
     userSignup(name, email, password) {
         // Signup logic.
         this.user = {
-            id: 99,
+            id: 1,
             name: name,
             email: email,
             password: password,
@@ -43,6 +53,20 @@ class AppController {
     getUserProjects() {
         return this.user.getProjects();
     }
+
+    addUserProject(projectName, projectCode, projectDeadline, projectDescription) {
+        this.user.addProject(
+            projectName,
+            projectCode,
+            projectDeadline, 
+            projectDescription
+        );
+        
+        window.localStorage.setItem('user', this.user);
+
+        window.location.href='./projects.html';
+    }
+
 }
 
 export default AppController;

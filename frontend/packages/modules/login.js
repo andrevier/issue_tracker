@@ -3,7 +3,6 @@
 import AppController from './AppController.js';
 
 var appController = new AppController();
-
 var userEmail = document.getElementById("userEmail");
 var userPassword = document.getElementById("userPassword");
 

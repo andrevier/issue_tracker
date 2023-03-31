@@ -1,7 +1,6 @@
 class Project {
     
-    constructor(id, name, code, deadline, description) {
-        this.id = id;
+    constructor(name, code, deadline, description) {
         this.name = name;
         this.code = code;
         this.deadline = deadline;
