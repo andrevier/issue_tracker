@@ -1,6 +1,4 @@
-import AppController from './AppController.js';
-
-var appController = new AppController();
+// Signup logic.
 var userName = document.getElementById('userName');
 var userEmail = document.getElementById('userEmail');
 var userPassword = document.getElementById('userPassword');
@@ -10,8 +8,22 @@ const signupButton = document.getElementById("signupButton");
 signupButton.addEventListener("click", function (e) {
     e.preventDefault();
     console.log('signup button clicked');
-    appController.userSignup(
-        userName.value, 
-        userEmail.value,
-        userPassword.value);
+    var newUser = {
+        name: userName.value,
+        email: userEmail.value,
+        password: userPassword.value
+    }
+    var newUserId = postNewUser(newUser);
+    window.localStorage.setItem('userId', newUserId);
+    window.location.href = "./projects.html";
 });
+
+function postNewUser(user) {
+    console.log(user);
+    // Get new user's id.
+    var userId = 999;
+    return userId;
+}
+
+
+

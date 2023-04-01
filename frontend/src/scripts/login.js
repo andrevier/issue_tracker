@@ -1,34 +1,48 @@
 // Login logic.
+import fakeUsers from "./fakeUsers";
 
-import AppController from './AppController.js';
-import User from './model/user.js';
+// Dev: Login data for development.
+const user = {
+    id: 1,
+    name:"John Doe",
+    email:"johndoe@example.com",
+    password:"123456"
+}
 
-// Define the user as the variable in the local storage.
-let user = new User("", "", "", "", []);
-window.localStorage.setItem('user', user);
-
-var app = new AppController();
-
-// Get the elements of the form.
-var userEmail = document.getElementById("userEmail");
-var userPassword = document.getElementById("userPassword");
-
-// Default login data for development.
-// const user = {
-//     name:"John Doe",
-//     email:"anpch@example.com",
-//     password:"123456"
-// }
-
-// Login button event handler.
 const loginButton = document.getElementById("loginButton");
+const userEmail = document.getElementById("userEmail");
+const userPassword = document.getElementById("userPassword");
+
 loginButton.addEventListener("click", function (e) {
     e.preventDefault();
-
-    // Basic authentication.
+    
+    // Basic authentication.    
     console.log('login button clicked');
-    console.log(userEmail.value, userPassword.value);
-    app.userLogin(userEmail.value, userPassword.value);
+    if (checkUserData(userEmail.value, userPassword.value)) {
+        // Pass the user Id to the local storage.
+        window.localStorage.setItem('userId', user.id);
+
+        // Go to the project's page.
+        window.location.href = './projects.html';
+
+    } else {
+        console.log('wrong user data');
+    }
+   
 });
+
+function checkUserData(email, password) {
+    // Authentication logic.
+    console.log('checking user data');
+    for (let i = 0; i < fakeUsers.length; i++) {
+        if (email === fakeUsers[i].email && password === fakeUsers[i].password) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    
+}
 
 

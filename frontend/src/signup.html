@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Issue Tracker | log in</title>
-    <link rel="stylesheet" href="./packages/node_modules/bootstrap/dist/css/bootstrap.css">
+    <title>My Issue Tracker | Sign up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 </head>
 <body>
   <div id="signup-page">
@@ -24,26 +25,32 @@
             <div class="card-title text-center" style="font-size:large; font:bolder">Let's go!</div>
             <form>
               <div class="mb-3">
+                <label for="userName" class="form-label">Full name</label>
+                <input type="text" class="form-control" id="userName" placeholder="Your name"> 
+              </div>
+              <div class="mb-3">
                 <label for="userEmail" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="userEmail" placeholder="Your email">              
               </div>
               <div class="mb-5">
-                <label for="userPassword" class="form-label">Password</label>
+                <label for="userPassword" class="form-label">Choose a password</label>
                 <input type="password" class="form-control" id="userPassword">
               </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-primary" id="loginButton">Enter</button>
+                <button type="submit" class="btn btn-primary" id="signupButton">Sign up</button>
               </div>
             </form>
           </div>
         </div>
       </div>
       <div class="row d-flex justify-content-center h-100 py-5 text-center">
-        <label for="" id="goToSignupId"><a href="./signup.html">Sign up!</a></label>
+        <label for="" id="returnToLoginId"><a href="./login.html">Return to login page.</a></label>
       </div>
     </div>
   </div>
-  <script src="./packages/modules/login.js" type="module"></script>
-    <script src="./packages/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  <script src="./scripts/signup.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+  crossorigin="anonymous"></script>
 </body>
 </html>

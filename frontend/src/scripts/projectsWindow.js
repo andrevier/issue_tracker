@@ -1,40 +1,56 @@
 // Manage the projects window.
-import AppController from "./appController.js";
-import User from "./model/user.js";
-import fakeUser from "./fakeUser.js";
+// Dev: for development purposes.
+import fakeUsers from "./fakeUsers.js";
 
-// Temporary initialization for development purposes.
-let user = new User(
-    fakeUser.name,
-    fakeUser.email,
-    fakeUser.password,
-    fakeUser.projects
-);
+// Constants and presets.
+const userId = window.localStorage.getItem('userId');
+console.log("user id: ", userId);
 
-window.localStorage.setItem("user", user);
-//
+// Functions.
+function getUserById(userId) {
+    // Get user projects from the database.
+    let i = 0;
+    while (`${fakeUsers[i].id}` !== userId) {
+        console.log("user id: ", fakeUsers[i].id);
+        i += 1;
+    }
 
-let app = new AppController();
+    return fakeUsers[i];
+}
 
-app.updateTableProjects(fakeUser.projects);
+function showTableContent(projects) {
+    let table = document.getElementById('tableProjectsBody');
+    table.innerHTML = ' ';
+    if (projects.length > 0) {
+        let i = 1;
+        projects.forEach((project) => {
+            let tr = document.createElement('tr');
+            let th = document.createElement('th');
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
+            
+            // Position of the project.
+            th.innerHTML = `${i}`;
+            td1.innerHTML = `${project.name}`;
+            td2.innerHTML = `${project.code}`;
+            td3.innerHTML = `${project.deadline}`;
+            
+            tr.appendChild(th);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
 
+            table.appendChild(tr);
+            i += 1;
+        });
+    }
+}
 
-// let createProject = document.getElementById('createProjectButton');
+// Execution.
+const user = getUserById(userId);
 
-// createProject.addEventListener('click', (e) => {
-//     e.preventDefault();
+document.getElementById("dropdownMenuButton").textContent = user.name;
+console.log("user", user);
 
-//     let projectName = document.getElementById("projectName");
-//     let projectCode = document.getElementById("projectCode");
-//     let projectDescription = document.getElementById("projectDescription");
-//     let projectDeadline = document.getElementById("projectDeadline");
-    
-//     console.log(projectName.value, projectCode.value, projectDeadline.value, projectDescription.value);
-
-//     app.addUserProject(
-//         projectName.value,
-//         projectCode.value,
-//         projectDeadline.value,
-//         projectDescription.value
-//     );
-// });
+showTableContent(user.projects);
