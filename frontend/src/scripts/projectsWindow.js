@@ -1,6 +1,7 @@
 // Manage the projects window.
 // Dev: for development purposes.
-import fakeUsers from "./fakeUsers.js";
+const response = await fetch('./scripts/fakeUsers.json');
+const fakeUsers = await response.json();
 
 // Constants and presets.
 const userId = window.localStorage.getItem('userId');

@@ -1,13 +1,7 @@
 // Login logic.
-import fakeUsers from "./fakeUsers";
-
-// Dev: Login data for development.
-const user = {
-    id: 1,
-    name:"John Doe",
-    email:"johndoe@example.com",
-    password:"123456"
-}
+// Dev: Get the users' data from the json file.
+const response = await fetch('./scripts/fakeUsers.json');
+const fakeUsers = await response.json();
 
 const loginButton = document.getElementById("loginButton");
 const userEmail = document.getElementById("userEmail");
@@ -18,9 +12,11 @@ loginButton.addEventListener("click", function (e) {
     
     // Basic authentication.    
     console.log('login button clicked');
-    if (checkUserData(userEmail.value, userPassword.value)) {
+    const userId = getUserId(userEmail.value, userPassword.value);
+    console.log('userId: ' + userId);
+    if (userId > 0) {
         // Pass the user Id to the local storage.
-        window.localStorage.setItem('userId', user.id);
+        window.localStorage.setItem('userId', userId);
 
         // Go to the project's page.
         window.location.href = './projects.html';
@@ -31,18 +27,15 @@ loginButton.addEventListener("click", function (e) {
    
 });
 
-function checkUserData(email, password) {
+function getUserId(email, password) {
     // Authentication logic.
     console.log('checking user data');
+
     for (let i = 0; i < fakeUsers.length; i++) {
         if (email === fakeUsers[i].email && password === fakeUsers[i].password) {
-            return true;
-        } else {
-            return false;
+            return fakeUsers[i].id;
         }
-
     }
-    
+    return -1;
 }
-
 
