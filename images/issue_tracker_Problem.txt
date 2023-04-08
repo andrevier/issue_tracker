@@ -1,0 +1,14 @@
+Issue Tracker Entity-Relationship diagram.
+
+1 - The app have many users but they do not cooperate in a project;
+2 - Each user has an ID, name, e-mail, password, and projects. E-mail and password together are unique for each student.
+3 - Each project can be identified by a code, name, deadline, start date, description, issues. 
+4 - Each issue can have name description, deadline, start date, and closing date. The user can open and close the issue many times.
+5 - Users may open or close a project despite have any issues active in it.
+
+Entities: 
+  - User;
+  - Project;
+  - Issue;
+  - Issue Time;
+  - Project time;
