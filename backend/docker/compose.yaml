@@ -1,0 +1,17 @@
+# Database setup.
+
+services:
+  database:
+    image: postgres:alpine
+    restart: always
+    container_name: issue_tracker_db
+    environment:
+      POSTGRES_PASSWORD: testPassword
+      POSTGRES_USER: admin
+      POSTGRES_DB: issue_tracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      
+
