@@ -13,7 +13,6 @@ CREATE TABLE project (
     project_id SERIAL,
     project_name VARCHAR(128) NOT NULL,
     project_description TEXT,
-    code VARCHAR(100) NOT NULL,
     PRIMARY KEY (project_id)
 );
 
@@ -47,6 +46,7 @@ CREATE TABLE issue_data (
     issue_name VARCHAR(128) NOT NULL,
     issue_description TEXT,
     priority_id INTEGER REFERENCES priority_label (priority_id) ON DELETE CASCADE,
+    project_id INTEGER REFERENCES project (project_id) ON DELETE CASCADE,
     issue_group VARCHAR(128),
     PRIMARY KEY (issue_id)
 );
