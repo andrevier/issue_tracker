@@ -30,7 +30,7 @@ public class Issue {
     @Column(name = "issue_name",nullable = false)
     private String issueName;
 
-    @Column(name = "issue_description")
+    @Column(name = "issue_description", columnDefinition = "TEXT")
     private String issueDescription;
 
     @ManyToOne(targetEntity = PriorityLabel.class)
