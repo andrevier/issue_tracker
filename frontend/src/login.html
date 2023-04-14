@@ -16,17 +16,21 @@
           <div class="card">            
             <div class="card-body">
               <h2 class="card-title text-center" style="font-size:large; font:bolder">My Issue Tracker</h2>
-              <form>
+              <form name="login-form" action="login" method="POST">
                 <div class="mb-3">
-                  <label for="userEmail" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="userEmail" placeholder="Your email">
+                  <label for="user-email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="user-email" placeholder="Your email">
+                  <div id="email-helper" class="form-text">
+                  </div>
                 </div>
                 <div class="mb-5">
-                  <label for="userPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="userPassword">
+                  <label for="user-password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="user-password">
+                  <div id="password-helper" class="form-text">
+                  </div>
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary px-5" id="loginButton">Log in</button>
+                  <button type="submit" class="btn btn-primary px-5" id="login-button">Log in</button>
                 </div>
               </form>        
             </div>
@@ -34,7 +38,7 @@
         </div>
         <div class="row py-5 mx-1 text-center">
           <div class="col">
-            <label for="" id="goToSignupId"><a href="./signup.html">Sign up!</a></label>
+            <label for="" id="go-to-signup-id"><a href="./signup.html">Sign up!</a></label>
           </div>
         </div>
       </div>
