@@ -22,8 +22,28 @@ public class ApiService {
         return userRepository.findAll();
     }
 
-    public void registerUser(User user) {
-        userRepository.save(user);
+    public User registerUser(User user) {
+        User existsUser = userRepository.findByEmail(user.getEmail());
+        
+        if (existsUser != null) {
+            throw new Error("User already exists.");
+        }
+
+        User createdUser = userRepository.save(user);
+
+        return createdUser;
+    }
+
+    public User login(User user) {
+        //find user with email and password.
+        User loginUser = userRepository.findByEmail(user.getEmail());
+        if (loginUser == null){
+            throw new Error("email not found.");
+        } else if (!loginUser.getPassword().equals(user.getPassword())) {
+            throw new Error("password mismatch.");
+        }            
+        
+        return loginUser;
     }
     
 }

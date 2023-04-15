@@ -1,41 +1,68 @@
 // Login logic.
-// Dev: Get the users' data from the json file.
-const response = await fetch('./scripts/fakeUsers.json');
-const fakeUsers = await response.json();
+const userEmail = document.getElementById("user-email");
+const userPassword = document.getElementById("user-password");
 
-const loginButton = document.getElementById("loginButton");
-const userEmail = document.getElementById("userEmail");
-const userPassword = document.getElementById("userPassword");
+const emailHelper = document.getElementById("email-helper");
+const passwordHelper = document.getElementById("password-helper");
 
-loginButton.addEventListener("click", function (e) {
+const loginButton = document.getElementById("login-button");
+
+const URL = "http://localhost:8080/api/v1/login";
+
+loginButton.addEventListener("click", function(e) {
     e.preventDefault();
+    if (userEmail.value === "") {
+        emailHelper.innerHTML = "email is required";
+        userEmail.focus();
+        return false;
+    } else if (userPassword.value === "") {
+        passwordHelper.innerHTML = "password is required";
+        passwordHelper.focus();
+        return false;
+    }
+
+    let data = {
+        userName:"",
+        email: userEmail.value,
+        password: userPassword.value
+    };
+
+    fetch(URL, {
+        method: "POST",
+        headers: {"Content-type": "application/json;charset=UTF-8"},
+        body:JSON.stringify(data)
+    })
+    .then(response => response.json()) 
+    .then(json => console.log(json))
+    .catch(err => console.log(err));
     
-    // Basic authentication.    
-    console.log('login button clicked');
-    const userId = getUserId(userEmail.value, userPassword.value);
-    console.log('userId: ' + userId);
-    if (userId > 0) {
-        // Pass the user Id to the local storage.
-        window.localStorage.setItem('userId', userId);
+})
 
-        // Go to the project's page.
-        window.location.href = './projects.html';
+// POST method implementation:
+// async function postData(url = "", data = {}) {
+//     // Default options are marked with *
+//     const response = await fetch(url, {
+//       method: "POST", // *GET, POST, PUT, DELETE, etc.
+//       mode: "cors", // no-cors, *cors, same-origin
+//       //cache: "default", // *default, no-cache, reload, force-cache, only-if-cached
+//       //credentials: "same-origin", // include, *same-origin, omit
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Access-Control-Allow-Origin" : "*", 
+//         "Access-Control-Allow-Credentials" : true
+//         // 'Content-Type': 'application/x-www-form-urlencoded',
+//       },
+//       redirect: "follow", // manual, *follow, error
+//       referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+//       body: JSON.stringify(data) // body data type must match "Content-Type" header
+//     });
+//     return response.json(); // parses JSON response into native JavaScript objects
+//   }
 
-    } else {
-        console.log('wrong user data');
-    }
-   
-});
-
-function getUserId(email, password) {
-    // Authentication logic.
-    console.log('checking user data');
-
-    for (let i = 0; i < fakeUsers.length; i++) {
-        if (email === fakeUsers[i].email && password === fakeUsers[i].password) {
-            return fakeUsers[i].id;
-        }
-    }
-    return -1;
-}
-
+// Post request.
+    // postData(URL, data)
+    // .then((response) => console.log(response));
+//   postData("https://example.com/answer", { answer: 42 }).then((data) => {
+//     console.log(data); // JSON data parsed by `data.json()` call
+//   });
+  
