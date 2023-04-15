@@ -32,8 +32,15 @@ loginButton.addEventListener("click", function(e) {
         headers: {"Content-type": "application/json;charset=UTF-8"},
         body:JSON.stringify(data)
     })
-    .then(response => response.json()) 
-    .then(json => console.log(json))
+    .then(response => {
+        // If the user is registered, the status is 200.
+        if (response.status === 200) {
+            window.location.href = "./projects.html";
+        } else {
+            console.log("Error: " + response.status);
+        }
+        console.log(response.json());
+    })
     .catch(err => console.log(err));
     
 })

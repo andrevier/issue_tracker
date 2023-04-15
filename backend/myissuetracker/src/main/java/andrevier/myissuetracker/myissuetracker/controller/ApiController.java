@@ -26,6 +26,7 @@ public class ApiController {
     @Autowired
     public ApiController(ApiService service) {
         this.service = service;
+        this.user = new User();
     }
 
     @GetMapping("/get-users")
@@ -45,4 +46,8 @@ public class ApiController {
         return this.user;
     }
 
+    @GetMapping("/user")
+    public User getCurrentUser(@RequestBody User user) {
+        return this.user;
+    }
 }
