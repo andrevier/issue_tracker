@@ -39,7 +39,10 @@ public class User {
 
     public User() {
        this.userName = "";
+       this.email = "";
+       this.password = "";
     }
+
     public User(String userName, String password, String email) {
         this.userName = userName;
         this.password = password;
@@ -76,6 +79,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEmpty() {
+        if (this.email == "" && this.password == "" && this.userName == "") {
+            return true;
+        }
+        return false;
     }
 
     @Override

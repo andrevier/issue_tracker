@@ -17,10 +17,11 @@ import andrevier.myissuetracker.myissuetracker.service.ApiService;
 
 @RestController
 @RequestMapping("api/v1")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ApiController {
 
     private final ApiService service;
+    private User user;
 
     @Autowired
     public ApiController(ApiService service) {
@@ -33,13 +34,15 @@ public class ApiController {
     }
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody User user) {
-        service.registerUser(user);        
+    public User registerUser(@RequestBody User user) {
+        this.user = service.registerUser(user);
+        return this.user;
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody User user) {
-        
+    public User login(@RequestBody User user) {
+        this.user = service.login(user);
+        return this.user;
     }
 
 }
