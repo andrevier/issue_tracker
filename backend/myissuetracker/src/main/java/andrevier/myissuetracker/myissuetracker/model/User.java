@@ -38,7 +38,7 @@ public class User {
     private String email;
 
     public User() {
-        
+       this.userName = "";
     }
     public User(String userName, String password, String email) {
         this.userName = userName;

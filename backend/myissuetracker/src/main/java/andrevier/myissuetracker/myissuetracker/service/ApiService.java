@@ -25,5 +25,10 @@ public class ApiService {
     public void registerUser(User user) {
         userRepository.save(user);
     }
+
+    public boolean login(User user) {
+        //find user with email and password.
+        return true;
+    }
     
 }

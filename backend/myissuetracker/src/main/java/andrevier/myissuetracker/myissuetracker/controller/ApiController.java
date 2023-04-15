@@ -3,6 +3,7 @@ package andrevier.myissuetracker.myissuetracker.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import andrevier.myissuetracker.myissuetracker.model.User;
 import andrevier.myissuetracker.myissuetracker.service.ApiService;
 
+
 @RestController
-@RequestMapping(path = "api/v1")
+@RequestMapping("api/v1")
+@CrossOrigin("*")
 public class ApiController {
 
     private final ApiService service;
@@ -24,14 +27,19 @@ public class ApiController {
         this.service = service;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/get-users")
     public List<User> getAllUsers() {
         return service.getAllUsers();
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public void registerUser(@RequestBody User user) {
         service.registerUser(user);        
+    }
+
+    @PostMapping("/login")
+    public void login(@RequestBody User user) {
+        
     }
 
 }
