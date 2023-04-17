@@ -9,12 +9,12 @@ import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.model.User;
 
 @Service
-public class ApiService {
+public class UserService {
     
     private UserRepository userRepository;
     
     @Autowired
-    public ApiService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

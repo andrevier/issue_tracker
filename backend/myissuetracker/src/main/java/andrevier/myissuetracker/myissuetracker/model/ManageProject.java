@@ -26,6 +26,11 @@ public class ManageProject {
 
     }
 
+    public ManageProject(ManageProjectId manageProjectId, User user) {
+        this.manageProjectId = manageProjectId;
+        this.user = user;
+    }
+
     public void setProjectId(Long projectId) {
         this.manageProjectId.setProjectId(projectId);
     }

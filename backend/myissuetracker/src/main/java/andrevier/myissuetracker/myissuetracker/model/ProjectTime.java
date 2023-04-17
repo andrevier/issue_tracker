@@ -3,6 +3,7 @@ package andrevier.myissuetracker.myissuetracker.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,16 +46,17 @@ public class ProjectTime {
     private OffsetDateTime closingDate;
 
     public ProjectTime(
-        OffsetDateTime startingDate,
-        OffsetDateTime deadline,
-        OffsetDateTime closingDate) {
+        OffsetDateTime startingDate, 
+        OffsetDateTime deadline) {
         this.startingDate = startingDate;
         this.deadline = deadline;
-        this.closingDate = closingDate;
+        this.closingDate = null;
     }
 
     public ProjectTime () {
         this.startingDate = OffsetDateTime.now();
+        this.deadline = null;
+        this.closingDate = null;
     }
     
     public Long getProjectTimeId() {

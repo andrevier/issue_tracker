@@ -25,9 +25,9 @@ public class ManageProjectId implements Serializable{
     )
     private ProjectTime projectTime;
 
-    public ManageProjectId(Long projectId, Long projectTimeId){
-        this.project.setProjectId(projectId);
-        this.projectTime.setProjectTimeId(projectTimeId);
+    public ManageProjectId(Project project, ProjectTime projectTime) {
+        this.project = project;
+        this.projectTime = projectTime;
     }
 
     public ManageProjectId() {}
