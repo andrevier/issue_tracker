@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import andrevier.myissuetracker.myissuetracker.model.User;
-import andrevier.myissuetracker.myissuetracker.service.ApiService;
+import andrevier.myissuetracker.myissuetracker.service.UserService;
 
 
 @RestController
@@ -20,11 +20,11 @@ import andrevier.myissuetracker.myissuetracker.service.ApiService;
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ApiController {
 
-    private final ApiService service;
+    private final UserService service;
     private User user;
 
     @Autowired
-    public ApiController(ApiService service) {
+    public ApiController(UserService service) {
         this.service = service;
         this.user = new User();
     }
@@ -47,7 +47,13 @@ public class ApiController {
     }
 
     @GetMapping("/user")
-    public User getCurrentUser(@RequestBody User user) {
+    public User getCurrentUser() {
+        System.out.println(this.user);
         return this.user;
     }
+
+    // @GetMapping("/user/projects")
+    // public List<Project> getUserProjects(@RequestBody User user) {
+    //     return new ArrayList<Project>();
+    // }
 }
