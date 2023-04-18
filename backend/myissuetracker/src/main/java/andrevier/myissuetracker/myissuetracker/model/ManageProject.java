@@ -23,7 +23,7 @@ public class ManageProject {
     private User user;
     
     public ManageProject() {
-
+        
     }
 
     public ManageProject(ManageProjectId manageProjectId, User user) {

@@ -96,8 +96,7 @@ public class PreSetUser {
                 new ManageProject(
                     new ManageProjectId(p3, p3Time),
                     user1)
-            );
-            
+            );            
         };
     }
 
