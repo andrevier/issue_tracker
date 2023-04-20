@@ -1,21 +1,29 @@
 package andrevier.myissuetracker.myissuetracker.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
+import andrevier.myissuetracker.myissuetracker.model.ManageProject;
+import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.User;
 
 @Service
 public class UserService {
     
     private UserRepository userRepository;
+    private ManageProjectRepository manageProjectRepository;
     
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(
+        UserRepository userRepository,
+        ManageProjectRepository manageProjectRepository) {
         this.userRepository = userRepository;
+        this.manageProjectRepository = manageProjectRepository;
     }
 
     public List<User> getAllUsers() {
@@ -44,6 +52,18 @@ public class UserService {
         }            
         
         return loginUser;
+    }
+
+    public List<Project> getProjects(User user) {
+        List<Project> projects = new ArrayList<Project>();
+        
+        List<ManageProject> manageProjectList = this.manageProjectRepository.findByUser(user);
+        System.out.println(manageProjectList);
+        for (ManageProject manageProject: manageProjectList){
+            Project p  = manageProject.getProject();
+            projects.add(p);
+        }
+        return projects;
     }
     
 }

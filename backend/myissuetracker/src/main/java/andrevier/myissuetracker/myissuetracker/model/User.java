@@ -1,8 +1,13 @@
 package andrevier.myissuetracker.myissuetracker.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
@@ -36,6 +41,10 @@ public class User {
 
     @Column(name = "user_email", nullable = false)
     private String email;
+
+    @OneToMany(orphanRemoval = true, mappedBy="user")
+    @JsonManagedReference
+    private List<ManageProject> manageProjectList;
 
     public User() {
        this.userName = "";
@@ -88,10 +97,39 @@ public class User {
         return false;
     }
 
+    public void removeManageProject(ManageProject manageProject) {
+        this.manageProjectList.remove(manageProject);                
+    }
+
+    public List<ManageProject> getManageProjectList() {
+        return manageProjectList;
+    }
+
+    public void setManageProjectList(List<ManageProject> manageProjectList) {
+        this.manageProjectList = manageProjectList;
+    }
+
     @Override
     public String toString() {
         return "User [userId=" + this.userId + ", userName=" + this.userName + ", password=" + this.password
                 + ", email=" + this.email
                 + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User other = (User) o;
+        return (other.getUserId() != null) && (other.getEmail() == this.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.userId.hashCode() * this.email.hashCode();
     }
 }

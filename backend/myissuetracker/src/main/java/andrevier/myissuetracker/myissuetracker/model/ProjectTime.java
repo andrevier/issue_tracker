@@ -2,6 +2,7 @@ package andrevier.myissuetracker.myissuetracker.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.SequenceGenerator;
@@ -9,6 +10,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import java.time.OffsetDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name = "ProjectTime")
 @Table(name = "project_time")
@@ -44,6 +48,10 @@ public class ProjectTime {
         columnDefinition = "TIMESTAMP WITH TIME ZONE"
     )
     private OffsetDateTime closingDate;
+
+    @OneToMany(orphanRemoval=true, mappedBy="projectTime")
+    @JsonManagedReference
+    private List<ManageProject> manageProjects;
 
     public ProjectTime(
         OffsetDateTime startingDate, 
@@ -89,6 +97,15 @@ public class ProjectTime {
 
     public void setClosingDate(OffsetDateTime closingDate) {
         this.closingDate = closingDate;
+    }
+
+    
+    public List<ManageProject> getManageProjects() {
+        return manageProjects;
+    }
+
+    public void setManageProjects(List<ManageProject> manageProjects) {
+        this.manageProjects = manageProjects;
     }
 
     @Override

@@ -19,7 +19,7 @@ SELECT
 u.user_id, p.project_id, pt.project_time_id, p.project_name,
 pt.starting_date, pt.deadline, p.project_description
 FROM user_data as u
-JOIN manage_projects as mp 
+JOIN manage_project as mp 
 ON u.user_id = mp.user_id
 JOIN project as p 
 ON mp.project_id = p.project_id 

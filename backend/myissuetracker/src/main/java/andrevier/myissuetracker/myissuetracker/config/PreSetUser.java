@@ -59,9 +59,7 @@ public class PreSetUser {
             System.out.println("project time 1: " + p1Time.getProjectTimeId());
                        
             ManageProject manageProject1 = manageProjectRepository.save(
-                    new ManageProject(
-                            new ManageProjectId(p1, p1Time),
-                            user1)
+                    new ManageProject( p1, p1Time, user1)
             );
             
             Project p2 = projectRepository.save(
@@ -75,9 +73,7 @@ public class PreSetUser {
                         OffsetDateTime.parse("2023-12-17T09:20:30+00:00")));
 
             ManageProject manageProject2 = manageProjectRepository.save(
-                    new ManageProject(
-                        new ManageProjectId(p2, p2Time),
-                        user1)
+                    new ManageProject(p2, p2Time, user1)
             );
 
             Project p3 = projectRepository.save(
@@ -93,9 +89,7 @@ public class PreSetUser {
                     OffsetDateTime.parse("2023-12-01T09:20:30+00:00")));
             
             ManageProject manageProject3 = manageProjectRepository.save(
-                new ManageProject(
-                    new ManageProjectId(p3, p3Time),
-                    user1)
+                new ManageProject(p3, p3Time, user1)
             );            
         };
     }

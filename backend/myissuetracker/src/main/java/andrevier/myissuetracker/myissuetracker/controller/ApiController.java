@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.User;
 import andrevier.myissuetracker.myissuetracker.service.UserService;
 
@@ -29,9 +31,13 @@ public class ApiController {
         this.user = new User();
     }
 
-    @GetMapping("/get-users")
+    @GetMapping("/getusers")
     public List<User> getAllUsers() {
-        return service.getAllUsers();
+        List<User> uList = service.getAllUsers();
+        for (User u_ : uList) {
+            System.out.println(u_);
+        }
+        return uList;
     }
 
     @PostMapping("/register")
@@ -52,8 +58,8 @@ public class ApiController {
         return this.user;
     }
 
-    // @GetMapping("/user/projects")
-    // public List<Project> getUserProjects(@RequestBody User user) {
-    //     return new ArrayList<Project>();
-    // }
+    @GetMapping("/user/projects")
+    public List<Project> getUserProjects(@RequestBody User user) {
+        return this.service.getProjects(user);
+    }
 }
