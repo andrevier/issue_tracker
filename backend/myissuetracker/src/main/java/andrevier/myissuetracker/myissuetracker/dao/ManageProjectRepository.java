@@ -17,5 +17,8 @@ public interface ManageProjectRepository extends JpaRepository<ManageProject, Lo
     // public List<ManageProject> findByUserId(@Param("id") Long userId);
 
     public List<ManageProject> findByUser(User user);
+
+    // @Query("SELECT mp FROM ManageProject mp WHERE mp.user_id = :user_id")
+    // public List<ManageProject> findProjectsByUserId(@Param("userId") Long userId);
     
 }

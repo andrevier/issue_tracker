@@ -59,7 +59,7 @@ public class ApiController {
     }
 
     @GetMapping("/user/projects")
-    public List<Project> getUserProjects(@RequestBody User user) {
-        return this.service.getProjects(user);
+    public void getUserProjects(@RequestBody User user) {
+        this.service.getProjects(user);
     }
 }

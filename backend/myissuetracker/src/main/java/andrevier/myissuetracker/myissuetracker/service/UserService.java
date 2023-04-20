@@ -54,16 +54,16 @@ public class UserService {
         return loginUser;
     }
 
-    public List<Project> getProjects(User user) {
-        List<Project> projects = new ArrayList<Project>();
+    public void getProjects(User user) {
+        //List<Project> projects = new ArrayList<Project>();
         
-        List<ManageProject> manageProjectList = this.manageProjectRepository.findByUser(user);
-        System.out.println(manageProjectList);
-        for (ManageProject manageProject: manageProjectList){
-            Project p  = manageProject.getProject();
-            projects.add(p);
-        }
-        return projects;
+        // List<ManageProject> manageProjectList = this.manageProjectRepository.findProjectsByUserId(user.getUserId());
+        // for (ManageProject manageProject: manageProjectList){
+        //     Project p  = manageProject.getProject();
+        //     projects.add(p);
+        // }
+        // return projects;
+        // System.out.println(manageProjectList);
     }
     
 }
