@@ -9,6 +9,8 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -32,37 +34,37 @@ public class ProjectTime {
 
     @Column(
         name = "starting_date", 
-        columnDefinition = "TIMESTAMP WITH TIME ZONE", 
+        columnDefinition = "TIMESTAMP", 
         nullable = false
     )
-    private OffsetDateTime startingDate;
-    
+    private LocalDateTime startingDate;
+   
     @Column(
         name = "deadline", 
-        columnDefinition = "TIMESTAMP WITH TIME ZONE"
+        columnDefinition = "TIMESTAMP"
     )
-    private OffsetDateTime deadline;
+    private LocalDateTime deadline;
     
     @Column(
         name = "closing_date", 
-        columnDefinition = "TIMESTAMP WITH TIME ZONE"
+        columnDefinition = "TIMESTAMP"
     )
-    private OffsetDateTime closingDate;
+    private LocalDateTime closingDate;
 
     @OneToMany(orphanRemoval=true, mappedBy="projectTime")
     @JsonManagedReference
     private List<ManageProject> manageProjects;
 
     public ProjectTime(
-        OffsetDateTime startingDate, 
-        OffsetDateTime deadline) {
+        LocalDateTime startingDate, 
+        LocalDateTime deadline) {
         this.startingDate = startingDate;
         this.deadline = deadline;
         this.closingDate = null;
     }
 
     public ProjectTime () {
-        this.startingDate = OffsetDateTime.now();
+        this.startingDate = LocalDateTime.now();
         this.deadline = null;
         this.closingDate = null;
     }
@@ -75,27 +77,27 @@ public class ProjectTime {
         this.projectTimeId = projectTimeId;
     }
     
-    public OffsetDateTime getStartingDate() {
+    public LocalDateTime getStartingDate() {
         return this.startingDate;
     }
     
-    public void setStartingDate(OffsetDateTime startingDate) {
+    public void setStartingDate(LocalDateTime startingDate) {
         this.startingDate = startingDate;
     }
 
-    public OffsetDateTime getDeadline() {
+    public LocalDateTime getDeadline() {
         return this.deadline;
     }
 
-    public void setDeadline(OffsetDateTime deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
-    public OffsetDateTime getClosingDate() {
+    public LocalDateTime getClosingDate() {
         return this.closingDate;
     }
 
-    public void setClosingDate(OffsetDateTime closingDate) {
+    public void setClosingDate(LocalDateTime closingDate) {
         this.closingDate = closingDate;
     }
 

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
-import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
@@ -52,6 +51,6 @@ public class UserService {
     }
 
     public List<ProjectRequestDto> getProjects() {
-        return manageProjectRepository.getProjectTable();
+        return manageProjectRepository.getProjects();
     }    
 }

@@ -1,6 +1,6 @@
 package andrevier.myissuetracker.myissuetracker.dto;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 public interface ProjectRequestDto {
     Long getUserId();
@@ -8,6 +8,6 @@ public interface ProjectRequestDto {
     Long getProjectTimeId();
     String getProjectName();
     String getProjectDescription();
-    Instant getStartingDate();
-    Instant getDeadline();
+    LocalDateTime getStartingDate();
+    LocalDateTime getDeadline();
 }

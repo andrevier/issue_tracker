@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
@@ -14,16 +13,6 @@ import andrevier.myissuetracker.myissuetracker.model.User;
 
 
 public interface ManageProjectRepository extends JpaRepository<ManageProject, Long>{
-
-    final String manageProjectViewQuery = 
-      "SELECT v.user_id, v.project_id, v.project_name,"
-    + " v.project_description, pt.starting_date, pt.deadline"
-    + " FROM (SELECT mp.user_id, mp.project_id, p.project_name,"
-    + " p.project_description, mp.project_time_id"
-    + " FROM manage_project mp"
-    + " JOIN project p ON mp.project_id = p.project_id) v"
-    + " JOIN project_time pt"
-    + " ON pt.project_time_id = v.project_time_id";
 
     
     public List<ManageProject> findByUser(User user);
@@ -38,6 +27,8 @@ public interface ManageProjectRepository extends JpaRepository<ManageProject, Lo
     + " JOIN project p ON mp.project_id = p.project_id) v"
     + " JOIN project_time pt"
     + " ON pt.project_time_id = v.project_time_id", nativeQuery = true)
-    public List<ProjectRequestDto> getProjectTable();
+    public List<ProjectRequestDto> getProjects();
     
+    // @Query()
+    // public ProjectRequestDto getProjectById(Long id);
 }

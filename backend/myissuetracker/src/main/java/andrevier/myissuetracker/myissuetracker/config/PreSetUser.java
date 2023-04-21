@@ -1,5 +1,6 @@
 package andrevier.myissuetracker.myissuetracker.config;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -52,8 +53,8 @@ public class PreSetUser {
 
             ProjectTime p1Time = projectTimeRepository.save(
                     new ProjectTime(
-                            OffsetDateTime.parse("2023-04-17T09:20:30+00:00"),
-                            OffsetDateTime.parse("2024-08-31T15:20:30+08:00")));
+                            LocalDateTime.parse("2023-04-17T09:20:30"),
+                            LocalDateTime.parse("2024-08-31T15:20:30")));
 
             System.out.println("project p1 id:" + p1.getProjectId());
             System.out.println("project time 1: " + p1Time.getProjectTimeId());
@@ -69,8 +70,8 @@ public class PreSetUser {
 
             ProjectTime p2Time = projectTimeRepository.save(
                     new ProjectTime(
-                        OffsetDateTime.parse("2023-04-17T09:20:30+00:00"),
-                        OffsetDateTime.parse("2023-12-17T09:20:30+00:00")));
+                        LocalDateTime.parse("2023-04-17T09:20:30"),
+                        LocalDateTime.parse("2023-12-17T09:20:30")));
 
             ManageProject manageProject2 = manageProjectRepository.save(
                     new ManageProject(p2, p2Time, user1)
@@ -85,8 +86,8 @@ public class PreSetUser {
 
             ProjectTime p3Time = projectTimeRepository.save(
                 new ProjectTime(
-                    OffsetDateTime.parse("2023-04-20T09:20:30+00:00"),
-                    OffsetDateTime.parse("2023-12-01T09:20:30+00:00")));
+                    LocalDateTime.parse("2023-04-20T09:20:30"),
+                    LocalDateTime.parse("2023-12-01T09:20:30")));
             
             ManageProject manageProject3 = manageProjectRepository.save(
                 new ManageProject(p3, p3Time, user1)
