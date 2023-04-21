@@ -52,5 +52,9 @@ public class UserService {
 
     public List<ProjectRequestDto> getProjects() {
         return manageProjectRepository.getProjects();
-    }    
+    }
+
+    // public List<ProjectRequestDto> getProjectsByUserId() {
+
+    // }
 }

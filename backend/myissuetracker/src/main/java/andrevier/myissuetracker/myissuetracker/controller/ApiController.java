@@ -24,44 +24,52 @@ import andrevier.myissuetracker.myissuetracker.service.UserService;
 public class ApiController {
 
     private final UserService service;
-    private User user;
+    private List<User> currentUserList;
 
     @Autowired
     public ApiController(UserService service) {
         this.service = service;
-        this.user = new User();
     }
 
-    @GetMapping("/getusers")
+    @GetMapping("/get-all-users")
     public List<User> getAllUsers() {
         List<User> uList = service.getAllUsers();
-        for (User u_ : uList) {
-            System.out.println(u_);
-        }
         return uList;
     }
 
-    @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
-        this.user = service.registerUser(user);
-        return this.user;
-    }
-
-    @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        this.user = service.login(user);
-        return this.user;
-    }
-
-    @GetMapping("/user")
-    public User getCurrentUser() {
-        System.out.println(this.user);
-        return this.user;
-    }
-
-    @GetMapping("/user/projects")
+    @GetMapping("/get-all-projects")
     public List<ProjectRequestDto> getUserProjects() {
         return this.service.getProjects();
     }
+
+
+    @PostMapping("register-user")
+    public User registerUser(@RequestBody User user) {
+        return service.registerUser(user);        
+    }
+
+    @PostMapping("login")
+    public User login(@RequestBody User user) {
+        return service.login(user);
+    }
+
+    // Rethink this function. Access the current user only makes sense
+    // to one user only.
+    // @GetMapping("/current-user")
+    // public User getCurrentUser() {
+    //     return new User();
+    // }
+
+    // @GetMapping("/user-by-id/{userId}")
+    // public User getUserByID(@PathVariable("userId") Long id) {
+    //     return new User();
+    // }
+
+    // @GetMapping("project-by-id/{projectId}")
+    // public ProjectRequestDto getProjectById(@PathVariable(projectId) Long projectId) {
+    //     return new;
+    // }
+
+    
 
 }
