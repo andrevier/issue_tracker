@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
+import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
+import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.User;
@@ -15,17 +17,12 @@ import andrevier.myissuetracker.myissuetracker.model.User;
 @Service
 public class UserService {
     
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private ManageProjectRepository manageProjectRepository;
     
-    @Autowired
-    public UserService(
-        UserRepository userRepository,
-        ManageProjectRepository manageProjectRepository) {
-        this.userRepository = userRepository;
-        this.manageProjectRepository = manageProjectRepository;
-    }
-
+    
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -54,16 +51,7 @@ public class UserService {
         return loginUser;
     }
 
-    public void getProjects(User user) {
-        //List<Project> projects = new ArrayList<Project>();
-        
-        // List<ManageProject> manageProjectList = this.manageProjectRepository.findProjectsByUserId(user.getUserId());
-        // for (ManageProject manageProject: manageProjectList){
-        //     Project p  = manageProject.getProject();
-        //     projects.add(p);
-        // }
-        // return projects;
-        // System.out.println(manageProjectList);
-    }
-    
+    public List<ProjectRequestDto> getProjects() {
+        return manageProjectRepository.getProjectTable();
+    }    
 }

@@ -41,3 +41,20 @@ WHERE pt.project_time_id = id
 
 -- Delete a project with an id.
 DELETE FROM project WHERE project_id = 1;
+
+-- View for the project's page. 
+-- Get project information:
+SELECT mp.user_id, mp.project_id, p.project_name, p.project_description
+FROM manage_project mp 
+JOIN project p
+ON mp.project_id = p.project_id;
+
+-- Get final view.
+SELECT v.user_id, v.project_id, v.project_name, v.project_description, pt.starting_date, pt.deadline
+FROM (SELECT mp.user_id, mp.project_id, p.project_name, p.project_description, mp.project_time_id
+FROM manage_project mp 
+JOIN project p
+ON mp.project_id = p.project_id) v
+JOIN project_time pt
+ON pt.project_time_id = v.project_time_id;
+

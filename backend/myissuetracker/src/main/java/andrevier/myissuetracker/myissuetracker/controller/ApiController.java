@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
+import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.User;
 import andrevier.myissuetracker.myissuetracker.service.UserService;
@@ -59,7 +61,8 @@ public class ApiController {
     }
 
     @GetMapping("/user/projects")
-    public void getUserProjects(@RequestBody User user) {
-        this.service.getProjects(user);
+    public List<ProjectRequestDto> getUserProjects() {
+        return this.service.getProjects();
     }
+
 }
