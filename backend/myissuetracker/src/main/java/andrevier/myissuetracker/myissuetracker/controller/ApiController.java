@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.User;
@@ -24,7 +25,6 @@ import andrevier.myissuetracker.myissuetracker.service.UserService;
 public class ApiController {
 
     private final UserService service;
-    private List<User> currentUserList;
 
     @Autowired
     public ApiController(UserService service) {
@@ -36,12 +36,6 @@ public class ApiController {
         List<User> uList = service.getAllUsers();
         return uList;
     }
-
-    @GetMapping("/get-all-projects")
-    public List<ProjectRequestDto> getUserProjects() {
-        return this.service.getProjects();
-    }
-
 
     @PostMapping("register-user")
     public User registerUser(@RequestBody User user) {
@@ -64,12 +58,19 @@ public class ApiController {
     // public User getUserByID(@PathVariable("userId") Long id) {
     //     return new User();
     // }
+    @GetMapping("/get-all-projects")
+    public List<ProjectRequestDto> getUserProjects() {
+        return this.service.getProjects();
+    }
 
-    // @GetMapping("project-by-id/{projectId}")
-    // public ProjectRequestDto getProjectById(@PathVariable(projectId) Long projectId) {
-    //     return new;
-    // }
+    @GetMapping("get-projects-with-user-id/{userId}")
+    public List<ProjectRequestDto> getProjectById(@PathVariable Long userId) {
+        return service.getProjectsByUserId(userId);
+    }
 
-    
+    @PostMapping("create-project/{userId}")
+    public ProjectRequest createProject(@RequestBody ProjectRequest newProject, @PathVariable Long userId){
+        return service.createProject(newProject, userId);
+    }
 
 }
