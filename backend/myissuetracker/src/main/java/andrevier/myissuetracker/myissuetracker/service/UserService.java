@@ -116,4 +116,10 @@ public class UserService {
 
         this.projectTimeRepository.save(projectTimeItem);
     }
+
+    public void deleteProjectById(Long projectId) {
+        // Delete a project involves 3 classes: Project, ProjectTime and ManageProject.
+        this.projectRepository.deleteById(projectId);
+        
+    }
 }
