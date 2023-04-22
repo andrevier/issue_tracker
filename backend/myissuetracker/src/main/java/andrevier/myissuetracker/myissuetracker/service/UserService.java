@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -96,5 +97,23 @@ public class UserService {
         newProject.setProjectId(p1.getProjectId());
 
         return newProject;
+    }
+
+    public void updateProject(ProjectRequest updatedProject) {
+        // Update one project by its id. 
+        // Three entities are involved: Project, ManageProject, and ProjectTime.
+        Long projectId = updatedProject.getProjectId();
+        
+        Project projectItem = this.projectRepository.findById(projectId).get();
+        projectItem.setProjectName(updatedProject.getProjectName());
+        projectItem.setProjectDescription(updatedProject.getProjectDescription());
+        this.projectRepository.save(projectItem);
+
+        ManageProject manageProjectItem = this.manageProjectRepository.findByProjectId(projectId);
+        ProjectTime projectTimeItem = manageProjectItem.getProjectTime();
+        projectTimeItem.setStartingDate(updatedProject.getStartingDate());
+        projectTimeItem.setDeadline(updatedProject.getDeadline());
+
+        this.projectTimeRepository.save(projectTimeItem);
     }
 }
