@@ -119,7 +119,16 @@ public class UserService {
 
     public void deleteProjectById(Long projectId) {
         // Delete a project involves 3 classes: Project, ProjectTime and ManageProject.
+        // Deleting a parent also deletes the child. Then, two parents are necessary:
+        // Project and ProjectTime.
+        ManageProject manageProjectItem = this.manageProjectRepository.findByProjectId(projectId);
+        
+        ProjectTime projectTimeItem = manageProjectItem.getProjectTime();
+
+        // First parent to delete.
         this.projectRepository.deleteById(projectId);
+        // Second parent to delete.
+        this.projectTimeRepository.deleteById(projectTimeItem.getProjectTimeId());
         
     }
 }
