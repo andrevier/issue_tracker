@@ -1,10 +1,14 @@
 package andrevier.myissuetracker.myissuetracker.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.GeneratedValue;
@@ -28,34 +32,38 @@ public class IssueTime {
 
     @Column(
         name = "starting_date", 
-        columnDefinition = "TIMESTAMP WITH TIME ZONE", 
+        columnDefinition = "TIMESTAMP", 
         nullable = false
     )
-    private OffsetDateTime startingDate;
+    private LocalDateTime startingDate;
 
     @Column(
         name = "closing_date", 
-        columnDefinition = "TIMESTAMP WITH TIME ZONE"
+        columnDefinition = "TIMESTAMP"
     )
-    private OffsetDateTime closingDate;
+    private LocalDateTime closingDate;
 
     @Column(
         name = "deadline", 
-        columnDefinition = "TIMESTAMP WITH TIME ZONE"
+        columnDefinition = "TIMESTAMP"
     )
-    private OffsetDateTime deadline;
+    private LocalDateTime deadline;
+
+    @OneToMany(orphanRemoval=true, mappedBy="issueTime")
+    @JsonManagedReference
+    private List<ManageIssue> manageIssues;
 
     public IssueTime(
-        OffsetDateTime startingDate,
-        OffsetDateTime deadline,
-        OffsetDateTime closingDate) {
+        LocalDateTime startingDate,
+        LocalDateTime deadline) {
             this.startingDate = startingDate;
-            this.closingDate = closingDate;
             this.deadline = deadline;
     }
 
     public IssueTime() {
-        this.startingDate = OffsetDateTime.now();
+        this.startingDate = LocalDateTime.now();
+        this.closingDate = null;
+        this.deadline = null;
     }
 
     public Long getIssueTimeId() {
@@ -66,27 +74,27 @@ public class IssueTime {
         this.issueTimeId = issueTimeId;
     }
 
-    public OffsetDateTime getStartingDate() {
+    public LocalDateTime getStartingDate() {
         return this.startingDate;
     }
 
-    public void setStartingDate(OffsetDateTime startingDate) {
+    public void setStartingDate(LocalDateTime startingDate) {
         this.startingDate = startingDate;
     }
 
-    public OffsetDateTime getClosingDate() {
+    public LocalDateTime getClosingDate() {
         return this.closingDate;
     }
 
-    public void setClosingDate(OffsetDateTime closingDate) {
+    public void setClosingDate(LocalDateTime closingDate) {
         this.closingDate = closingDate;
     }
 
-    public OffsetDateTime getDeadline() {
+    public LocalDateTime getDeadline() {
         return this.deadline;
     }
 
-    public void setDeadline(OffsetDateTime deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 

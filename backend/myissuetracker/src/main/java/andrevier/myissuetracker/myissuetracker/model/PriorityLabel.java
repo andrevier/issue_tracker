@@ -1,8 +1,13 @@
 package andrevier.myissuetracker.myissuetracker.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +32,10 @@ public class PriorityLabel {
 
     @Column(name = "priority_name", nullable = false)
     private String priorityName;
+
+    @OneToMany(orphanRemoval = true, mappedBy="priorityLabel")
+    @JsonManagedReference
+    private List<Issue> issueList;
 
     public PriorityLabel(String priorityName) {
         this.priorityName = priorityName;

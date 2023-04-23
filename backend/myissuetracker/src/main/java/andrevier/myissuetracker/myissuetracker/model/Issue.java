@@ -1,5 +1,10 @@
 package andrevier.myissuetracker.myissuetracker.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -8,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -34,6 +40,7 @@ public class Issue {
     private String issueDescription;
 
     @ManyToOne(targetEntity = PriorityLabel.class)
+    @JsonBackReference
     @JoinColumn(
         name = "priority_label_id", 
         referencedColumnName = "priority_label_id",
@@ -43,6 +50,7 @@ public class Issue {
     private PriorityLabel priorityLabel;
     
     @ManyToOne(targetEntity = Project.class)
+    @JsonBackReference
     @JoinColumn(
         name = "project_id", 
         referencedColumnName = "project_id",
@@ -51,8 +59,16 @@ public class Issue {
     )
     private Project project;
 
-    @Column(name = "issue_group")
-    private String issueGroup;
+    @OneToMany(orphanRemoval=true, mappedBy="issue")
+    @JsonManagedReference
+    private List<ManageIssue> manageIssue;
+    
+    public Issue(String issueName, String issueDescription, PriorityLabel priorityLabel, Project project) {
+        this.issueName = issueName;
+        this.issueDescription = issueDescription;
+        this.priorityLabel = priorityLabel;
+        this.project = project;
+    }
 
     public Long getIssueId() {
         return this.issueId;
@@ -94,14 +110,6 @@ public class Issue {
         this.project.setProjectId(projectId);
     }
 
-    public String getIssueGroup(){
-        return this.issueGroup;
-    }
-
-    public void setIssueGroup(String issueGroup) {
-        this.issueGroup = issueGroup;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -120,7 +128,9 @@ public class Issue {
     @Override
     public String toString() {
         return "Issue{id=" + this.issueId + ", name=" + this.issueName 
-            + ", group=" + this.issueGroup + ", description=" + this.issueDescription + "}";
+            + ", description=" + this.issueDescription 
+            + ", project name=" + this.project.getProjectName() 
+            + ", project id=" + this.project.getProjectId() + "}";
     }
 
 }

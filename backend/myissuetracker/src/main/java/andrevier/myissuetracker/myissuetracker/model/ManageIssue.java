@@ -1,10 +1,17 @@
 package andrevier.myissuetracker.myissuetracker.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.UniqueConstraint;
 
@@ -14,10 +21,40 @@ import jakarta.persistence.UniqueConstraint;
     columnNames = {"issue_id", "issue_time_id"})}
 ) 
 public class ManageIssue {
-    @EmbeddedId
-    private ManageIssueId manageIssueId;
+
+    @Id
+    @SequenceGenerator(
+        name = "manage_issue_sequence", 
+        sequenceName = "manage_issue_sequence", 
+        allocationSize = 1
+    )
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE, 
+        generator = "manage_issue_sequence"
+    )
+    @Column(name = "manage_issue_id", updatable = false)
+    private Long manageIssueId;
+
+    @ManyToOne(targetEntity = Issue.class)
+    @JsonBackReference
+    @JoinColumn(
+        name="issue_id", 
+        referencedColumnName="issue_id",
+        foreignKey = @ForeignKey(name = "issue_id_manage_issue_FK")
+    )
+    private Issue issue;
+
+    @ManyToOne(targetEntity = IssueTime.class)
+    @JsonBackReference
+    @JoinColumn(
+        name = "issue_time_id", 
+        referencedColumnName="issue_time_id",
+        foreignKey = @ForeignKey(name = "issue_time_id_manage_issue_FK")
+    )
+    private IssueTime issueTime;
 
     @ManyToOne(targetEntity = User.class)
+    @JsonBackReference
     @JoinColumn(
         name="user_id", referencedColumnName = "user_id",
         nullable = false, 
@@ -25,34 +62,40 @@ public class ManageIssue {
     )
     private User user;
 
+    public ManageIssue(Issue issue, IssueTime issueTime, User user) {
+        this.issue = issue;
+        this.issueTime = issueTime;
+        this.user = user;
+    }
+
     public ManageIssue() {
 
     }
 
-    public void setIssueId(Long IssueId) {
-        this.manageIssueId.setIssueId(IssueId);
+    public void setIssueId(Long issueId) {
+        this.manageIssueId = issueId;
     }
 
     public Long getIssueId() {
-        return this.manageIssueId.getIssueId();
+        return this.manageIssueId;
     }
 
-    public Long getIssueTimeId() {
-        return this.manageIssueId.getIssueTimeId();
+    public IssueTime getIssueTime() {
+        return issueTime;
     }
 
-    public void setIssueTimeId(Long IssueTimeId) {
-        this.manageIssueId.setIssueTimeId(IssueTimeId);
-    }    
-
-    public Long getUserId() {
-        return this.user.getUserId();
+    public void setIssueTime(IssueTime issueTime) {
+        this.issueTime = issueTime;
+    }
+    
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.user.setUserId(userId);
+    public void setUser(User user) {
+        this.user = user;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -60,20 +103,20 @@ public class ManageIssue {
         if (!(o instanceof ManageIssue))
             return false;
         ManageIssue other = (ManageIssue) o;
-        return (this.manageIssueId.getIssueId() == other.manageIssueId.getIssueId()) 
-            && (this.manageIssueId.getIssueTimeId() == other.manageIssueId.getIssueTimeId())
+        return (this.manageIssueId == other.manageIssueId) 
+            && (this.issueTime.getIssueTimeId() == other.issueTime.getIssueTimeId())
             && (this.user.getUserId() == other.user.getUserId());
     }
 
     @Override
     public int hashCode() {
-        return this.manageIssueId.hashCode() * this.user.hashCode();
+        return this.manageIssueId.hashCode() * this.user.hashCode() * this.issueTime.hashCode();
     }
 
     @Override
     public String toString() {
-        return "ManageIssue{issueId=" + this.manageIssueId.getIssueId()
-            + ", issueTimeId=" + this.manageIssueId.getIssueTimeId()
+        return "ManageIssue{issueId=" + this.manageIssueId
+            + ", issueTimeId=" + this.issueTime.getIssueTimeId()
             + ", userId=" + this.user.getUserId() + "}";
     }
 

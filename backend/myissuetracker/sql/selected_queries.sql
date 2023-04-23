@@ -61,11 +61,11 @@ ON pt.project_time_id = v.project_time_id;
 -- Get projects of the user_id and returns a project by the project_id.
 SELECT v.project_id, v.project_name, v.project_description, pt.starting_date, pt.deadline
 FROM (
-    SELECT mp.project_id, mp.project_name, p.project_description, mp.project_time_id
+    SELECT mp.project_id, p.project_name, p.project_description, mp.project_time_id
     FROM manage_project mp 
     JOIN project p 
     ON mp.project_id = p.project_id 
-    WHERE mp.user_id = :id
+    WHERE mp.user_id = 1
 ) v
 JOIN project_time pt 
 ON pt.project_time_id = v.project_time_id
