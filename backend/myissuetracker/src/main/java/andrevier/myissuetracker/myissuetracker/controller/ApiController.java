@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
+import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
@@ -104,7 +105,13 @@ public class ApiController {
         return this.service.getIssuesFromProject(projectId, userId);
     }
 
-    // @PostMapping("/create-issue/{projectId}")
-    // public String createIssue(@PathVariable Long projectId)
+    @PostMapping("/create-issue/{projectId}/{userId}")
+    public IssueRequest createIssue(
+        @PathVariable Long projectId, 
+        @PathVariable Long userId,
+        @RequestBody IssueRequest issueRequest) {
+            return this.service.createIssue(projectId, userId, issueRequest);
+
+    }
 
 }

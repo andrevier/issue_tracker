@@ -30,38 +30,32 @@ public class IssueRequest implements IssueRequestDto {
 
     @Override
     public Long getIssueId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIssueId'");
+        return this.issueId;
     }
 
     @Override
     public String getIssueName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIssueName'");
+        return this.issueName;
     }
 
     @Override
     public String getIssueDescription() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIssueDescription'");
+        return this.issueDescription;
     }
 
     @Override
     public String getPriorityLabel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPriorityLabel'");
+        return this.priorityLabel;
     }
 
     @Override
     public LocalDateTime getStartingDate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStartingDate'");
+        return this.startingDate;
     }
 
     @Override
     public LocalDateTime getDeadline() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeadline'");
+        return this.deadline;
     }
 
     public void setIssueId(Long issueId) {

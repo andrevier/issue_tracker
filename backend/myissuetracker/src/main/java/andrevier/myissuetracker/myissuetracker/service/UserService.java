@@ -8,14 +8,20 @@ import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
+import andrevier.myissuetracker.myissuetracker.dao.IssueTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageIssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
+import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
+import andrevier.myissuetracker.myissuetracker.model.Issue;
+import andrevier.myissuetracker.myissuetracker.model.IssueTime;
+import andrevier.myissuetracker.myissuetracker.model.ManageIssue;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.ProjectTime;
@@ -35,7 +41,13 @@ public class UserService {
     
     @Autowired
     private ManageIssueRepository manageIssueRepository;
+
+    @Autowired
+    private IssueTimeRepository issueTimeRepository;
     
+    @Autowired
+    private IssueRepository issueRepository;
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -140,5 +152,30 @@ public class UserService {
     // public void createIssueWithProjectId
     public List<IssueRequestDto> getIssuesFromProject(Long projectId, Long userId) {
        return this.manageIssueRepository.findIssuesByProjectAndUser(projectId, userId);
+    }
+
+    public IssueRequest createIssue(
+        Long projectId,
+        Long userId,
+        IssueRequest issueRequest) {
+        Project project = this.projectRepository.getReferenceById(projectId);
+        User user = this.userRepository.getReferenceById(userId);
+        IssueTime timeForIssue = this.issueTimeRepository.save(
+            new IssueTime(
+                    issueRequest.getStartingDate(),
+                    issueRequest.getDeadline()));
+
+        Issue issue = this.issueRepository.save(
+            new Issue(
+                    issueRequest.getIssueName(),
+                    issueRequest.getIssueDescription(),
+                    issueRequest.getPriorityLabel(),
+                    project));
+        
+        this.manageIssueRepository.save(
+            new ManageIssue(issue, timeForIssue, user));
+        
+        issueRequest.setIssueId(issue.getIssueId());
+        return issueRequest;
     }
 }
