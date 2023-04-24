@@ -8,10 +8,12 @@ import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import andrevier.myissuetracker.myissuetracker.dao.ManageIssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
+import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
@@ -30,6 +32,9 @@ public class UserService {
     private ProjectRepository projectRepository;
     @Autowired
     private ProjectTimeRepository projectTimeRepository;
+    
+    @Autowired
+    private ManageIssueRepository manageIssueRepository;
     
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -130,5 +135,10 @@ public class UserService {
         // Second parent to delete.
         this.projectTimeRepository.deleteById(projectTimeItem.getProjectTimeId());
         
+    }
+
+    // public void createIssueWithProjectId
+    public List<IssueRequestDto> getIssuesFromProject(Long projectId, Long userId) {
+       return this.manageIssueRepository.findIssuesByProjectAndUser(projectId, userId);
     }
 }

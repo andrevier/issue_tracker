@@ -1,7 +1,6 @@
 package andrevier.myissuetracker.myissuetracker.config;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +18,6 @@ import andrevier.myissuetracker.myissuetracker.model.Issue;
 import andrevier.myissuetracker.myissuetracker.model.IssueTime;
 import andrevier.myissuetracker.myissuetracker.model.ManageIssue;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
-import andrevier.myissuetracker.myissuetracker.model.ManageProjectId;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.ProjectTime;
 import andrevier.myissuetracker.myissuetracker.model.User;
@@ -66,13 +64,14 @@ public class PreSetUser {
             manageProjectRepository.save(
                     new ManageProject( user1p1, user1p1Time, user1)
             );
-            // Issues from the project p1.        
+            // Issues from the project p1.
+            // (1)      
             IssueTime timeForIssue1 = issueTimeRepository.save(
                 new IssueTime(
                         LocalDateTime.now(),
                         LocalDateTime.parse("2024-05-17T00:00:00")));
 
-            Issue issue1 = issueRepository.save(// error...
+            Issue issue1 = issueRepository.save(
                 new Issue(
                         "Choose the car.",
                         "Choose the type of car considering the price.",
@@ -81,7 +80,8 @@ public class PreSetUser {
             
             manageIssueRepository.save(
                 new ManageIssue(issue1, timeForIssue1, user1));
-            //
+            
+            // (2)
             IssueTime timeForIssue2 = issueTimeRepository.save(
                 new IssueTime(
                         LocalDateTime.now(),
@@ -96,7 +96,8 @@ public class PreSetUser {
             
             manageIssueRepository.save(
                 new ManageIssue(issue2, timeForIssue2, user1));
-            //
+            
+            // (3)
             IssueTime timeForIssue3 = issueTimeRepository.save(
                 new IssueTime(
                         LocalDateTime.now(),
@@ -115,7 +116,7 @@ public class PreSetUser {
             // Project 2 for user 1.
             Project user1p2 = projectRepository.save(
                     new Project(
-                        "Go to Italy in the summer",
+                        "Go to Italy in the winter",
                         "Save money to travel to Italy in December/23."));
 
             ProjectTime user1p2Time = projectTimeRepository.save(
@@ -127,7 +128,8 @@ public class PreSetUser {
                     new ManageProject(user1p2, user1p2Time, user1)
             );
 
-            // Issues from the project 2 for user 1.        
+            // Issues from the project 2 for user 1.
+            // (1)
             IssueTime timeForIssue1OfP2 = issueTimeRepository.save(
                 new IssueTime(
                         LocalDateTime.now(),
@@ -138,11 +140,12 @@ public class PreSetUser {
                         "Choose the car.",
                         "Choose the type of car considering the price.",
                         "normal",
-                        user1p1));
+                        user1p2));
             
             manageIssueRepository.save(
                 new ManageIssue(issue1OfP2, timeForIssue1OfP2, user1));
-            //
+            
+            // (2)
             IssueTime timeForIssue2OfP2 = issueTimeRepository.save(
                 new IssueTime(
                         LocalDateTime.now(),
@@ -153,11 +156,12 @@ public class PreSetUser {
                         "How can I save money ?.",
                         "Plan to save money according to my budget.",
                         "normal",
-                        user1p1));
+                        user1p2));
             
             manageIssueRepository.save(
                 new ManageIssue(issue2OfP2, timeForIssue2OfP2, user1));
-            //
+            
+            // (3)
             IssueTime timeForIssue3OfP2 = issueTimeRepository.save(
                 new IssueTime(
                         LocalDateTime.now(),
@@ -168,7 +172,7 @@ public class PreSetUser {
                         "How can I save money ?.",
                         "Plan to save money according to my budget.",
                         "normal",
-                        user1p1));
+                        user1p2));
             
             manageIssueRepository.save(
                 new ManageIssue(issue3OfP2, timeForIssue3OfP2, user1));

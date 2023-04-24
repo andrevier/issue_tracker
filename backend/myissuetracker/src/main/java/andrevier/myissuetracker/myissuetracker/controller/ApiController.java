@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
+import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.Project;
@@ -98,9 +99,12 @@ public class ApiController {
         return "Accepted.";
     }
 
-    @GetMapping("/read-issues/{projectId}")
-    public String readIssue(@PathVariable Long projectId) {
-        return "Accepted.";
+    @GetMapping("/read-issues/{projectId}/{userId}")
+    public List<IssueRequestDto> readIssue(@PathVariable Long projectId, @PathVariable Long userId) {
+        return this.service.getIssuesFromProject(projectId, userId);
     }
+
+    // @PostMapping("/create-issue/{projectId}")
+    // public String createIssue(@PathVariable Long projectId)
 
 }

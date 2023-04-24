@@ -102,8 +102,9 @@ JOIN priority_label pl
 ON x.priority_label_id = pl.priority_label_id;
 
 -- Cascade join
-SELECT i.issue_id, i.issue_name, i.issue_description, it.starting_date, it.deadline, pl.priority_name
-FROM manage_issue mi
+SELECT i.issue_name, i.issue_description, it.starting_date, it.deadline, i.priority_label
+FROM manage_issue mi 
 JOIN issue_data i ON mi.issue_id = i.issue_id
+WHERE mi.user_id = 1 AND i.project_id = 1
 JOIN issue_time it ON mi.issue_time_id = it.issue_time_id
-JOIN priority_label pl ON i.priority_label_id = pl.priority_label_id;
+
