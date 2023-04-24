@@ -70,4 +70,40 @@ FROM (
 JOIN project_time pt 
 ON pt.project_time_id = v.project_time_id
 
+-- Get all issues from all projects and all users.
+SELECT mi.issue_id, i.issue_name, i.issue_description, i.priority_label_id, i.project_id
+FROM manage_issue mi
+JOIN issue_data i
+ON mi.issue_id = i.issue_id
 
+
+-- Get issues from all projects for a defined user_id.
+SELECT mi.issue_id, i.issue_name, i.issue_description, i.priority_label_id, i.project_id
+FROM manage_issue mi
+JOIN issue_data i
+ON mi.issue_id = i.issue_id
+WHERE mi.user_id = :id
+
+-- Get issues in a project, indexed by a project_id, and a user, indexed by a user_id.
+SELECT v.issue_id, v.issue_name, v.issue_description, it.starting_date, it.deadline, v.priority_label_id
+FROM (
+    SELECT v.issue_id, v.issue_name, v.issue_description, it.starting_date, it.deadline, v.priority_label_id
+    FROM (
+        SELECT mi.issue_id, i.issue_name, i.issue_description, mi.issue_time_id, i.priority_label_id
+        FROM manage_issue mi
+        JOIN issue_data i
+        ON mi.issue_id = i.issue_id
+        WHERE mi.user_id = 1 AND i.project_id = 1
+    ) v
+    JOIN issue_time it
+    ON v.issue_time_id = it.issue_time_id
+) x
+JOIN priority_label pl
+ON x.priority_label_id = pl.priority_label_id;
+
+-- Cascade join
+SELECT i.issue_id, i.issue_name, i.issue_description, it.starting_date, it.deadline, pl.priority_name
+FROM manage_issue mi
+JOIN issue_data i ON mi.issue_id = i.issue_id
+JOIN issue_time it ON mi.issue_time_id = it.issue_time_id
+JOIN priority_label pl ON i.priority_label_id = pl.priority_label_id;

@@ -98,4 +98,9 @@ public class ApiController {
         return "Accepted.";
     }
 
+    @GetMapping("/read-issues/{projectId}")
+    public String readIssue(@PathVariable Long projectId) {
+        return "Accepted.";
+    }
+
 }
