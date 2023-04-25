@@ -119,4 +119,8 @@ public class ApiController {
         return this.service.updateIssue(request);
     }
 
+    @DeleteMapping("/delete-issue/{issueId}")
+    public void deleteIssue(@PathVariable Long issueId) {
+        this.service.deleteIssueById(issueId);
+    }
 }

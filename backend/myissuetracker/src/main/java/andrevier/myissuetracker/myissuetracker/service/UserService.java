@@ -195,4 +195,12 @@ public class UserService {
         this.issueTimeRepository.save(issueTime);
         return issueRequest;
     }
+
+    public void deleteIssueById(long issueId) {
+        ManageIssue manageIssueItem = this.manageIssueRepository.findByIssueId(issueId);
+        IssueTime issueTime = manageIssueItem.getIssueTime();
+        this.issueRepository.deleteById(issueId);
+        this.issueTimeRepository.deleteById(issueTime.getIssueTimeId());
+        
+    }
 }
