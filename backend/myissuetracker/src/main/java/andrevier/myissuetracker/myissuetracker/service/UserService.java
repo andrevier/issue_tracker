@@ -178,4 +178,21 @@ public class UserService {
         issueRequest.setIssueId(issue.getIssueId());
         return issueRequest;
     }
+
+    public IssueRequest updateIssue(IssueRequest issueRequest) {
+        // Update the issue in a project. The only attribute that
+        // cannot be updated is the project id.
+        Issue updatedIssue = this.issueRepository.getReferenceById(issueRequest.getIssueId());
+        updatedIssue.setIssueName(issueRequest.getIssueName());
+        updatedIssue.setIssueDescription(issueRequest.getIssueDescription());
+        updatedIssue.setPriorityLabel(issueRequest.getPriorityLabel());
+        this.issueRepository.save(updatedIssue);
+
+        ManageIssue manageIssue = this.manageIssueRepository.findByIssueId(issueRequest.getIssueId());
+        IssueTime issueTime = manageIssue.getIssueTime();
+        issueTime.setStartingDate(issueRequest.getStartingDate());
+        issueTime.setDeadline(issueRequest.getDeadline());
+        this.issueTimeRepository.save(issueTime);
+        return issueRequest;
+    }
 }

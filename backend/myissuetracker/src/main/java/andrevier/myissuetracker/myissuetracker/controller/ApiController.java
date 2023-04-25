@@ -114,4 +114,9 @@ public class ApiController {
 
     }
 
+    @PutMapping("/update-issue")
+    public IssueRequest updateIssue(@RequestBody IssueRequest request) {
+        return this.service.updateIssue(request);
+    }
+
 }

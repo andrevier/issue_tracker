@@ -64,7 +64,10 @@ public class Issue {
         this.priorityLabel = priorityLabel;
         this.project = project;
     }
+    public Issue() {
 
+    }
+    
     public Long getIssueId() {
         return this.issueId;
     }
