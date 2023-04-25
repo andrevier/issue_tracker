@@ -3,9 +3,15 @@ package andrevier.myissuetracker.myissuetracker.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.UniqueConstraint;
 
@@ -32,6 +38,10 @@ public class Project {
     @Column(name = "project_description", columnDefinition = "TEXT")
     private String projectDescription;
 
+    @OneToMany(orphanRemoval = true, mappedBy = "project")
+    @JsonManagedReference
+    private List<ManageProject> manageProjects;
+    
     public Project(
             String projectName,
             String projectDescription) {
@@ -66,6 +76,14 @@ public class Project {
 
     public void setProjectDescription(String desc) {
         this.projectDescription = desc;
+    }
+
+    public List<ManageProject> getManageProjects() {
+        return manageProjects;
+    }
+
+    public void setManageProjects(List<ManageProject> manageProjects) {
+        this.manageProjects = manageProjects;
     }
 
     @Override

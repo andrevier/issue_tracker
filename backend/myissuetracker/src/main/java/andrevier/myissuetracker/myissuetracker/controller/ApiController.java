@@ -3,14 +3,25 @@ package andrevier.myissuetracker.myissuetracker.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
+import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
+import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
+import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
+import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
+import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.User;
 import andrevier.myissuetracker.myissuetracker.service.UserService;
 
@@ -21,39 +32,95 @@ import andrevier.myissuetracker.myissuetracker.service.UserService;
 public class ApiController {
 
     private final UserService service;
-    private User user;
 
     @Autowired
     public ApiController(UserService service) {
         this.service = service;
-        this.user = new User();
     }
 
-    @GetMapping("/get-users")
+    @GetMapping("/get-all-users")
     public List<User> getAllUsers() {
-        return service.getAllUsers();
+        List<User> uList = service.getAllUsers();
+        return uList;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register-user")
     public User registerUser(@RequestBody User user) {
-        this.user = service.registerUser(user);
-        return this.user;
+        return service.registerUser(user);        
     }
 
     @PostMapping("/login")
     public User login(@RequestBody User user) {
-        this.user = service.login(user);
-        return this.user;
+        return service.login(user);
     }
 
-    @GetMapping("/user")
-    public User getCurrentUser() {
-        System.out.println(this.user);
-        return this.user;
-    }
-
-    // @GetMapping("/user/projects")
-    // public List<Project> getUserProjects(@RequestBody User user) {
-    //     return new ArrayList<Project>();
+    // Rethink this function. Access the current user only makes sense
+    // to one user only.
+    // @GetMapping("/current-user")
+    // public User getCurrentUser() {
+    //     return new User();
     // }
+
+    // @GetMapping("/user-by-id/{userId}")
+    // public User getUserByID(@PathVariable("userId") Long id) {
+    //     return new User();
+    // }
+    @GetMapping("/get-all-projects")
+    public List<ProjectRequestDto> getUserProjects() {
+        return this.service.getProjects();
+    }
+
+    @GetMapping("/get-projects-with-user-id/{userId}")
+    public List<ProjectRequestDto> getProjectById(@PathVariable Long userId) {
+        return service.getProjectsByUserId(userId);
+    }
+
+    @PostMapping("/create-project/{userId}")
+    public ProjectRequest createProject(@RequestBody ProjectRequest newProject, @PathVariable Long userId){
+        return service.createProject(newProject, userId);
+    }
+
+    @PutMapping("/update-project")
+    public String updateProject(@RequestBody ProjectRequest updateProject){
+        // Update the project with ProjectRequest attributes. It is 
+        // important that the project Id field is not null, otherwise it 
+        // can't find the project.
+        if (updateProject.getProjectId() != null) {
+            service.updateProject(updateProject);
+            return "Accepted";
+        } else {
+            return "Null project Id";
+        }
+
+    }
+
+    @DeleteMapping("/delete-project/{projectId}")
+    public String deleteProject(@PathVariable Long projectId) {
+        this.service.deleteProjectById(projectId);
+        return "Accepted.";
+    }
+
+    @GetMapping("/read-issues/{projectId}/{userId}")
+    public List<IssueRequestDto> readIssue(@PathVariable Long projectId, @PathVariable Long userId) {
+        return this.service.getIssuesFromProject(projectId, userId);
+    }
+
+    @PostMapping("/create-issue/{projectId}/{userId}")
+    public IssueRequest createIssue(
+        @PathVariable Long projectId, 
+        @PathVariable Long userId,
+        @RequestBody IssueRequest issueRequest) {
+            return this.service.createIssue(projectId, userId, issueRequest);
+
+    }
+
+    @PutMapping("/update-issue")
+    public IssueRequest updateIssue(@RequestBody IssueRequest request) {
+        return this.service.updateIssue(request);
+    }
+
+    @DeleteMapping("/delete-issue/{issueId}")
+    public void deleteIssue(@PathVariable Long issueId) {
+        this.service.deleteIssueById(issueId);
+    }
 }

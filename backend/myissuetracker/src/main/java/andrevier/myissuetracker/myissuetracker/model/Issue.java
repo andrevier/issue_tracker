@@ -1,5 +1,11 @@
 package andrevier.myissuetracker.myissuetracker.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -8,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -33,16 +41,11 @@ public class Issue {
     @Column(name = "issue_description", columnDefinition = "TEXT")
     private String issueDescription;
 
-    @ManyToOne(targetEntity = PriorityLabel.class)
-    @JoinColumn(
-        name = "priority_label_id", 
-        referencedColumnName = "priority_label_id",
-        nullable = false,
-        foreignKey = @ForeignKey(name = "priority_label_id_issue_data_FK")
-    )
-    private PriorityLabel priorityLabel;
+    @Column(name = "priority_label")
+    private String priorityLabel;
     
     @ManyToOne(targetEntity = Project.class)
+    @JsonBackReference
     @JoinColumn(
         name = "project_id", 
         referencedColumnName = "project_id",
@@ -51,9 +54,20 @@ public class Issue {
     )
     private Project project;
 
-    @Column(name = "issue_group")
-    private String issueGroup;
+    @OneToMany(orphanRemoval=true, mappedBy="issue")
+    @JsonManagedReference
+    private List<ManageIssue> manageIssue;
+    
+    public Issue(String issueName, String issueDescription, String priorityLabel, Project project) {
+        this.issueName = issueName;
+        this.issueDescription = issueDescription;
+        this.priorityLabel = priorityLabel;
+        this.project = project;
+    }
+    public Issue() {
 
+    }
+    
     public Long getIssueId() {
         return this.issueId;
     }
@@ -78,49 +92,85 @@ public class Issue {
         this.issueDescription = issueDescription;
     }
     
-    public Long getPriorityId() {
-        return this.priorityLabel.getPriorityId();
+    public String getPriorityLabel() {
+        return this.priorityLabel;
     }
 
-    public void setPriorityId(Long priorityId) {
-        this.priorityLabel.setPriorityId(priorityId);
+    public void setPriorityLabel(String priorityLabel) {
+        this.priorityLabel = priorityLabel;
+    }
+    
+    public Project getProject() {
+        return project;
     }
 
-    public Long getProjectId() {
-        return this.project.getProjectId();
-    }
-
-    public void setProjectId(Long projectId) {
-        this.project.setProjectId(projectId);
-    }
-
-    public String getIssueGroup(){
-        return this.issueGroup;
-    }
-
-    public void setIssueGroup(String issueGroup) {
-        this.issueGroup = issueGroup;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Issue))
-            return false;
-        Issue other = (Issue) o;
-        return (other.getIssueId() != null) && (this.issueId == other.getIssueId());
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Override
     public int hashCode() {
-        return this.issueId.hashCode() * this.issueName.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((issueId == null) ? 0 : issueId.hashCode());
+        result = prime * result + ((issueName == null) ? 0 : issueName.hashCode());
+        result = prime * result + ((issueDescription == null) ? 0 : issueDescription.hashCode());
+        result = prime * result + ((priorityLabel == null) ? 0 : priorityLabel.hashCode());
+        result = prime * result + ((project == null) ? 0 : project.hashCode());
+        result = prime * result + ((manageIssue == null) ? 0 : manageIssue.hashCode());
+        return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Issue other = (Issue) obj;
+        if (issueId == null) {
+            if (other.issueId != null)
+                return false;
+        } else if (!issueId.equals(other.issueId))
+            return false;
+        if (issueName == null) {
+            if (other.issueName != null)
+                return false;
+        } else if (!issueName.equals(other.issueName))
+            return false;
+        if (issueDescription == null) {
+            if (other.issueDescription != null)
+                return false;
+        } else if (!issueDescription.equals(other.issueDescription))
+            return false;
+        if (priorityLabel == null) {
+            if (other.priorityLabel != null)
+                return false;
+        } else if (!priorityLabel.equals(other.priorityLabel))
+            return false;
+        if (project == null) {
+            if (other.project != null)
+                return false;
+        } else if (!project.equals(other.project))
+            return false;
+        if (manageIssue == null) {
+            if (other.manageIssue != null)
+                return false;
+        } else if (!manageIssue.equals(other.manageIssue))
+            return false;
+        return true;
+    }
+
+
 
     @Override
     public String toString() {
         return "Issue{id=" + this.issueId + ", name=" + this.issueName 
-            + ", group=" + this.issueGroup + ", description=" + this.issueDescription + "}";
+            + ", description=" + this.issueDescription 
+            + ", project name=" + this.project.getProjectName() 
+            + ", project id=" + this.project.getProjectId() + "}";
     }
 
 }

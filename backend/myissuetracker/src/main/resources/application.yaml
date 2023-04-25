@@ -12,7 +12,22 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
                 format_sql: true
-        show-sql: true
+                generate_statistics: true
+        show-sql: true  
     main:
         web-application-type: servlet
-        
+
+logging:
+    level:
+        org:
+            springframework:
+                web: INFO
+            hibernate:
+                SQL: DEBUG
+                type:
+                    descriptor:
+                        sql:
+                            BasicBinder: TRACE
+    file:
+        path: logs
+        name: app.log
