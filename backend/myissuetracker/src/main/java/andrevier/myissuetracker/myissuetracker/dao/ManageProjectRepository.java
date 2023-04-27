@@ -40,7 +40,7 @@ public interface ManageProjectRepository extends JpaRepository<ManageProject, Lo
     + " WHERE mp.user_id = :userId) v"
     + " JOIN project_time pt"
     + " ON pt.project_time_id = v.project_time_id", nativeQuery = true)
-    public List<ProjectRequestDto> getProjectsByUserId(Long userId);
+    public List<ProjectRequestDto> findProjectsByUserId(Long userId);
 
     @Query(value = "SELECT * FROM manage_project mp WHERE mp.project_id = :projectId",
     nativeQuery = true)

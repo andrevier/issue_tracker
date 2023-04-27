@@ -3,7 +3,6 @@ package andrevier.myissuetracker.myissuetracker.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,15 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
-import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.User;
 import andrevier.myissuetracker.myissuetracker.service.UserService;
 
@@ -38,9 +34,9 @@ public class ApiController {
         this.service = service;
     }
 
-    @GetMapping("/get-all-users")
-    public List<User> getAllUsers() {
-        List<User> uList = service.getAllUsers();
+    @GetMapping("/all-users")
+    public List<User> getUsers() {
+        List<User> uList = service.getUsers();
         return uList;
     }
 
@@ -54,25 +50,14 @@ public class ApiController {
         return service.login(user);
     }
 
-    // Rethink this function. Access the current user only makes sense
-    // to one user only.
-    // @GetMapping("/current-user")
-    // public User getCurrentUser() {
-    //     return new User();
-    // }
-
-    // @GetMapping("/user-by-id/{userId}")
-    // public User getUserByID(@PathVariable("userId") Long id) {
-    //     return new User();
-    // }
-    @GetMapping("/get-all-projects")
-    public List<ProjectRequestDto> getUserProjects() {
+    @GetMapping("/all-projects")
+    public List<ProjectRequestDto> getProjects() {
         return this.service.getProjects();
     }
 
-    @GetMapping("/get-projects-with-user-id/{userId}")
-    public List<ProjectRequestDto> getProjectById(@PathVariable Long userId) {
-        return service.getProjectsByUserId(userId);
+    @GetMapping("/projects-with-user-id/{userId}")
+    public List<ProjectRequestDto> getProjectWithUserId(@PathVariable Long userId) {
+        return service.getProjectsWithUserId(userId);
     }
 
     @PostMapping("/create-project/{userId}")
@@ -96,21 +81,21 @@ public class ApiController {
 
     @DeleteMapping("/delete-project/{projectId}")
     public String deleteProject(@PathVariable Long projectId) {
-        this.service.deleteProjectById(projectId);
+        this.service.deleteProject(projectId);
         return "Accepted.";
     }
 
-    @GetMapping("/read-issues/{projectId}/{userId}")
-    public List<IssueRequestDto> readIssue(@PathVariable Long projectId, @PathVariable Long userId) {
+    @GetMapping("/issues/{userId}/{projectId}")
+    public List<IssueRequestDto> getIssuesFromProject(@PathVariable Long projectId, @PathVariable Long userId) {
         return this.service.getIssuesFromProject(projectId, userId);
     }
 
-    @PostMapping("/create-issue/{projectId}/{userId}")
-    public IssueRequest createIssue(
+    @PostMapping("/create-issue/{userId}/{projectId}")
+    public IssueRequest createIssueInAProject(
         @PathVariable Long projectId, 
         @PathVariable Long userId,
         @RequestBody IssueRequest issueRequest) {
-            return this.service.createIssue(projectId, userId, issueRequest);
+            return this.service.createIssueInAProject(projectId, userId, issueRequest);
 
     }
 
@@ -121,6 +106,6 @@ public class ApiController {
 
     @DeleteMapping("/delete-issue/{issueId}")
     public void deleteIssue(@PathVariable Long issueId) {
-        this.service.deleteIssueById(issueId);
+        this.service.deleteIssue(issueId);
     }
 }

@@ -1,10 +1,7 @@
 package andrevier.myissuetracker.myissuetracker.service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +45,7 @@ public class UserService {
     @Autowired
     private IssueRepository issueRepository;
 
-    public List<User> getAllUsers() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
@@ -80,8 +77,8 @@ public class UserService {
         return manageProjectRepository.getProjects();
     }
 
-    public List<ProjectRequestDto> getProjectsByUserId(Long userId) {
-        return manageProjectRepository.getProjectsByUserId(userId);
+    public List<ProjectRequestDto> getProjectsWithUserId(Long userId) {
+        return manageProjectRepository.findProjectsByUserId(userId);
     }
 
     public ProjectRequest createProject(ProjectRequest newProject, Long userId) {
@@ -134,7 +131,7 @@ public class UserService {
         this.projectTimeRepository.save(projectTimeItem);
     }
 
-    public void deleteProjectById(Long projectId) {
+    public void deleteProject(Long projectId) {
         // Delete a project involves 3 classes: Project, ProjectTime and ManageProject.
         // Deleting a parent also deletes the child. Then, two parents are necessary:
         // Project and ProjectTime.
@@ -154,7 +151,7 @@ public class UserService {
        return this.manageIssueRepository.findIssuesByProjectAndUser(projectId, userId);
     }
 
-    public IssueRequest createIssue(
+    public IssueRequest createIssueInAProject(
         Long projectId,
         Long userId,
         IssueRequest issueRequest) {
@@ -196,7 +193,7 @@ public class UserService {
         return issueRequest;
     }
 
-    public void deleteIssueById(long issueId) {
+    public void deleteIssue(long issueId) {
         ManageIssue manageIssueItem = this.manageIssueRepository.findByIssueId(issueId);
         IssueTime issueTime = manageIssueItem.getIssueTime();
         this.issueRepository.deleteById(issueId);
