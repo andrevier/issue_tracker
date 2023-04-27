@@ -30,7 +30,7 @@ The app has three main objects connected: User, project, and issue. The constrai
 </p>
 
 ## File structure
-
+<pre>
 ├───sql
 ├───src
 │   ├───main
@@ -52,7 +52,7 @@ The app has three main objects connected: User, project, and issue. The constrai
 │           └───andrevier
 │               └───myissuetracker
 │                   └───myissuetracker
-
+</pre>
 1) Sql folder has cheat-sheet of sql commands to test the database;
 2) src/main/java/andrevier/myissuetracker/myissuetracker is the main project folder;
 3) Inside the main folder, the project is divided into packages of classes. 
