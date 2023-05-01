@@ -14,6 +14,8 @@ import andrevier.myissuetracker.myissuetracker.dao.ProjectTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
+import andrevier.myissuetracker.myissuetracker.dto.ManageIssueDto;
+import andrevier.myissuetracker.myissuetracker.dto.ManageProjectDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.Issue;
@@ -120,12 +122,19 @@ public class UserService {
         
         Project projectItem = this.projectRepository.findById(projectId).get();
         projectItem.setProjectName(updatedProject.getProjectName());
-        projectItem.setProjectDescription(updatedProject.getProjectDescription());
+
+        projectItem.setProjectDescription(
+            updatedProject.getProjectDescription());
+
         this.projectRepository.save(projectItem);
 
-        ManageProject manageProjectItem = this.manageProjectRepository.findByProjectId(projectId);
-        ProjectTime projectTimeItem = manageProjectItem.getProjectTime();
-        projectTimeItem.setStartingDate(updatedProject.getStartingDate());
+        ManageProjectDto manageProjectItem = 
+        this.manageProjectRepository.findByProjectId(projectId);
+
+        ProjectTime projectTimeItem = this.projectTimeRepository
+            .findById(manageProjectItem.getProjectTimeId()).get();
+        projectTimeItem.setStartingDate(
+            updatedProject.getStartingDate());
         projectTimeItem.setDeadline(updatedProject.getDeadline());
 
         this.projectTimeRepository.save(projectTimeItem);
@@ -135,9 +144,11 @@ public class UserService {
         // Delete a project involves 3 classes: Project, ProjectTime and ManageProject.
         // Deleting a parent also deletes the child. Then, two parents are necessary:
         // Project and ProjectTime.
-        ManageProject manageProjectItem = this.manageProjectRepository.findByProjectId(projectId);
+        ManageProjectDto manageProjectItem = this.manageProjectRepository
+            .findByProjectId(projectId);
         
-        ProjectTime projectTimeItem = manageProjectItem.getProjectTime();
+        ProjectTime projectTimeItem = this.projectTimeRepository
+            .findById(manageProjectItem.getProjectTimeId()).get();
 
         // First parent to delete.
         this.projectRepository.deleteById(projectId);
@@ -179,14 +190,19 @@ public class UserService {
     public IssueRequest updateIssue(IssueRequest issueRequest) {
         // Update the issue in a project. The only attribute that
         // cannot be updated is the project id.
-        Issue updatedIssue = this.issueRepository.getReferenceById(issueRequest.getIssueId());
+        Issue updatedIssue = this.issueRepository.getReferenceById(
+            issueRequest.getIssueId());
         updatedIssue.setIssueName(issueRequest.getIssueName());
         updatedIssue.setIssueDescription(issueRequest.getIssueDescription());
         updatedIssue.setPriorityLabel(issueRequest.getPriorityLabel());
         this.issueRepository.save(updatedIssue);
 
-        ManageIssue manageIssue = this.manageIssueRepository.findByIssueId(issueRequest.getIssueId());
-        IssueTime issueTime = manageIssue.getIssueTime();
+        ManageIssueDto manageIssue = this.manageIssueRepository
+            .findByIssueId(issueRequest.getIssueId());
+
+        IssueTime issueTime = this.issueTimeRepository.getReferenceById(
+            manageIssue.getIssueTimeId());
+
         issueTime.setStartingDate(issueRequest.getStartingDate());
         issueTime.setDeadline(issueRequest.getDeadline());
         this.issueTimeRepository.save(issueTime);
@@ -194,8 +210,12 @@ public class UserService {
     }
 
     public void deleteIssue(long issueId) {
-        ManageIssue manageIssueItem = this.manageIssueRepository.findByIssueId(issueId);
-        IssueTime issueTime = manageIssueItem.getIssueTime();
+        ManageIssueDto manageIssueItem = this.manageIssueRepository
+            .findByIssueId(issueId);
+        
+        IssueTime issueTime =  this.issueTimeRepository
+            .getReferenceById(manageIssueItem.getIssueTimeId());
+        
         this.issueRepository.deleteById(issueId);
         this.issueTimeRepository.deleteById(issueTime.getIssueTimeId());
         

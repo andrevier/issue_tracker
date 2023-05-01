@@ -29,5 +29,5 @@ logging:
                         sql:
                             BasicBinder: TRACE
     file:
-        path: logs/
-        name: logs/app.log
+        path: logs
+        name: app.log
