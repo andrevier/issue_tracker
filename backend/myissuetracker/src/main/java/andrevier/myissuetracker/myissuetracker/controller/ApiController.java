@@ -18,7 +18,10 @@ import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
+import andrevier.myissuetracker.myissuetracker.dto.UserRequestDto;
+import andrevier.myissuetracker.myissuetracker.service.IssueService;
+import andrevier.myissuetracker.myissuetracker.service.ProjectService;
 import andrevier.myissuetracker.myissuetracker.service.UserService;
 
 
@@ -26,43 +29,47 @@ import andrevier.myissuetracker.myissuetracker.service.UserService;
 @RequestMapping("api/v1")
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ApiController {
-
-    private final UserService service;
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    public ApiController(UserService service) {
-        this.service = service;
-    }
+    private ProjectService projectService;
 
+    @Autowired
+    private IssueService issueService;
+
+   
     @GetMapping("/all-users")
-    public List<User> getUsers() {
-        List<User> uList = service.getUsers();
-        return uList;
+    public List<UserRequestDto> getUsers() {
+        return userService.getUsers();
     }
 
     @PostMapping("/register-user")
-    public User registerUser(@RequestBody User user) {
-        return service.registerUser(user);        
+    public UserRequest registerUser(@RequestBody UserRequest user) {
+        return userService.registerUser(user);        
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return service.login(user);
+    public UserRequest login(@RequestBody UserRequest user) {
+        return userService.login(user);
     }
-
+    
+    // Projects
     @GetMapping("/all-projects")
     public List<ProjectRequestDto> getProjects() {
-        return this.service.getProjects();
+        return this.projectService.getProjects();
     }
 
     @GetMapping("/projects-with-user-id/{userId}")
-    public List<ProjectRequestDto> getProjectWithUserId(@PathVariable Long userId) {
-        return service.getProjectsWithUserId(userId);
+    public List<ProjectRequestDto> getProjectWithUserId(
+        @PathVariable Long userId) {
+        return projectService.getProjectsWithUserId(userId);
     }
 
     @PostMapping("/create-project/{userId}")
-    public ProjectRequest createProject(@RequestBody ProjectRequest newProject, @PathVariable Long userId){
-        return service.createProject(newProject, userId);
+    public ProjectRequest createProject(
+        @RequestBody ProjectRequest newProject, @PathVariable Long userId){
+        return projectService.createProject(newProject, userId);
     }
 
     @PutMapping("/update-project")
@@ -71,7 +78,7 @@ public class ApiController {
         // important that the project Id field is not null, otherwise it 
         // can't find the project.
         if (updateProject.getProjectId() != null) {
-            service.updateProject(updateProject);
+            projectService.updateProject(updateProject);
             return "Accepted";
         } else {
             return "Null project Id";
@@ -81,13 +88,15 @@ public class ApiController {
 
     @DeleteMapping("/delete-project/{projectId}")
     public String deleteProject(@PathVariable Long projectId) {
-        this.service.deleteProject(projectId);
+        this.projectService.deleteProject(projectId);
         return "Accepted.";
     }
 
+    // Issues
     @GetMapping("/issues/{userId}/{projectId}")
-    public List<IssueRequestDto> getIssuesFromProject(@PathVariable Long projectId, @PathVariable Long userId) {
-        return this.service.getIssuesFromProject(projectId, userId);
+    public List<IssueRequestDto> getIssuesFromProject(
+        @PathVariable Long projectId, @PathVariable Long userId) {
+        return this.issueService.getIssuesFromProject(projectId, userId);
     }
 
     @PostMapping("/create-issue/{userId}/{projectId}")
@@ -95,17 +104,18 @@ public class ApiController {
         @PathVariable Long projectId, 
         @PathVariable Long userId,
         @RequestBody IssueRequest issueRequest) {
-            return this.service.createIssueInAProject(projectId, userId, issueRequest);
+            return this.issueService.createIssueInAProject(
+                projectId, userId, issueRequest);
 
     }
 
     @PutMapping("/update-issue")
     public IssueRequest updateIssue(@RequestBody IssueRequest request) {
-        return this.service.updateIssue(request);
+        return this.issueService.updateIssue(request);
     }
 
     @DeleteMapping("/delete-issue/{issueId}")
     public void deleteIssue(@PathVariable Long issueId) {
-        this.service.deleteIssue(issueId);
+        this.issueService.deleteIssue(issueId);
     }
 }
