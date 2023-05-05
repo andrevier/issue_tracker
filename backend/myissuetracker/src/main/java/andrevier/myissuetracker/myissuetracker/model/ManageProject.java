@@ -2,7 +2,6 @@ package andrevier.myissuetracker.myissuetracker.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import andrevier.myissuetracker.myissuetracker.dto.ManageProjectDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -16,7 +15,7 @@ import jakarta.persistence.SequenceGenerator;
 
 @Entity(name = "ManageProject")
 @Table(name = "manage_project")
-public class ManageProject implements ManageProjectDto{
+public class ManageProject {
     @Id
     @SequenceGenerator(
         name = "manage_project_sequence", 
@@ -100,17 +99,14 @@ public class ManageProject implements ManageProjectDto{
         this.user = user;
     }
     
-    @Override
     public Long getProjectId() {
         return this.project.getProjectId();
     }
 
-    @Override
     public Long getProjectTimeId() {
         return this.projectTime.getProjectTimeId();
     }
 
-    @Override
     public Long getUserId() {
         return this.user.getUserId();
     }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import andrevier.myissuetracker.myissuetracker.dto.ManageProjectDto;
+import andrevier.myissuetracker.myissuetracker.dto.ManageDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.User;
@@ -39,12 +39,22 @@ public interface ManageProjectRepository extends JpaRepository<ManageProject, Lo
     + " WHERE mp.user_id = :userId", nativeQuery = true)
     public List<ProjectRequestDto> findProjectsByUserId(Long userId);
 
-    @Query(value = ""
-    + " SELECT mp.manage_project_id as manageProjectId,"
+    @Query(value = "SELECT mp.manage_project_id as manageId,"
     + " mp.user_id as userId,"
     + " mp.project_id as projectId,"
     + " mp.project_time_id as projectTimeId"
     + " FROM manage_project mp WHERE mp.project_Id = :projectId",
-    nativeQuery = true)
-    public ManageProjectDto findByProjectId(Long projectId);
+     nativeQuery = true)
+    public List<ManageDto> findManageProjectByProjectId(Long projectId);
+
+    @Query(value = "SELECT mp.project_id as projectId,"
+    + " p.project_name as projectName,"
+    + " p.project_description as projectDescription,"
+    + " pt.starting_date as startingDate,"
+    + " pt.deadline as deadline"
+    + " FROM manage_project as mp"
+    + " JOIN project p ON mp.project_id = p.project_id"
+    + " JOIN project_time pt ON mp.project_time_id = pt.project_time_id"
+    + " WHERE mp.project_id = :projectId", nativeQuery = true)
+    public ProjectRequestDto findProjectById(Long projectId);
 }

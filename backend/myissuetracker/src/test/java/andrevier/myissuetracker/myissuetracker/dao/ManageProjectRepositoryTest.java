@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import andrevier.myissuetracker.myissuetracker.dto.ManageProjectDto;
+import andrevier.myissuetracker.myissuetracker.dto.ManageDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
@@ -32,19 +32,19 @@ public class ManageProjectRepositoryTest {
     private ProjectTimeRepository projectTimeRepo;
 
     @Test
-    public void checkFindByUser() {
+    public void testFindByUser() {
         // // Given the user and one project registered.
         User user1 = new User(
-                    "Marco de la Vega",
-                    "marconet",
-                    "marcovega@gmail.com");
+                    "Jose Rojas Camomilla",
+                    "jose108",
+                    "joserojascamo@gmail.com");
         
         this.userRepo.save(user1);
 
         Project user1Project = this.projectRepo.save(
             new Project(
-                    "Buy a car in Niteroi",
-                "Save money to buy a car in one year."));
+                    "Do a trip in the next summer.",
+                "Save money to go on vacation in the next summer."));
 
         ProjectTime user1ProjectTime = this.projectTimeRepo.save(
                 new ProjectTime(
@@ -62,12 +62,11 @@ public class ManageProjectRepositoryTest {
         assertThat(user1Projects.size()).isEqualTo(1);
 
         assertThat(user1Projects.get(0).getUser().getEmail())
-        .isEqualTo("marcovega@gmail.com");
-
+            .isEqualTo(user1.getEmail());
     }
 
     @Test
-    public void checkFindProjectsByUserId() {
+    public void testFindProjectsByUserId() {
         // Given the user and three projects registered.
         User user1 = new User(
                     "Marco de la Vega",
@@ -135,7 +134,7 @@ public class ManageProjectRepositoryTest {
     }
 
     @Test
-    public void checkFindByProjectId() {
+    public void testFindByProjectId() {
         // Given an user and a project.
         User user1 = new User(
                     "Felipe de la Vega",
@@ -155,19 +154,15 @@ public class ManageProjectRepositoryTest {
                         LocalDateTime.parse("2024-08-31T15:20:30")));
                 
         this.manageRepo.save(
-                new ManageProject( user1Project1, user1ProjectTime1, user1)
-        );        
+                new ManageProject(user1Project1, user1ProjectTime1, user1));        
 
         // When
-        ManageProjectDto manage = this.manageRepo.findByProjectId(user1Project1.getProjectId());
+        List<ManageDto> manageList = this.manageRepo
+                .findManageProjectByProjectId(user1Project1.getProjectId());
         
         // Assert
-        assertThat(manage.getProjectId()).isEqualTo(user1Project1.getProjectId());        
+        assertThat(manageList.size()).isEqualTo(1);
 
-    }
-
-
-
-    
+    }   
     
 }

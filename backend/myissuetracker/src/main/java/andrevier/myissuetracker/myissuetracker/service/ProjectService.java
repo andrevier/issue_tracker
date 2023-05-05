@@ -9,7 +9,7 @@ import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
-import andrevier.myissuetracker.myissuetracker.dto.ManageProjectDto;
+import andrevier.myissuetracker.myissuetracker.dto.ManageDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
@@ -69,39 +69,46 @@ public class ProjectService {
     }
 
     public void updateProject(ProjectRequest updatedProject) {
-        // Update one project by its id. 
+        // Update one project with information in the ProjectRequest object. 
         // Three entities are involved: Project, ManageProject, and ProjectTime.
         Long projectId = updatedProject.getProjectId();
         
+        // Updating the name and description.
         Project projectItem = this.projectRepository.findById(projectId).get();
+
         projectItem.setProjectName(updatedProject.getProjectName());
 
         projectItem.setProjectDescription(
             updatedProject.getProjectDescription());
 
         this.projectRepository.save(projectItem);
-
-        ManageProjectDto manageProjectItem = 
-        this.manageProjectRepository.findByProjectId(projectId);
+        
+        // Access ManageProject object to find the time for the project.
+        List<ManageDto> manageProjectItem = 
+            this.manageProjectRepository
+            .findManageProjectByProjectId(projectId);
 
         ProjectTime projectTimeItem = this.projectTimeRepository
-            .findById(manageProjectItem.getProjectTimeId()).get();
-        projectTimeItem.setStartingDate(
-            updatedProject.getStartingDate());
+            .findById(manageProjectItem.get(0).getProjectTimeId()).get();
+
+        // Updating the time instances.
+        projectTimeItem.setStartingDate(updatedProject.getStartingDate());
+        
         projectTimeItem.setDeadline(updatedProject.getDeadline());
 
         this.projectTimeRepository.save(projectTimeItem);
+
     }
 
     public void deleteProject(Long projectId) {
         // Delete a project involves 3 classes: Project, ProjectTime and ManageProject.
         // Deleting a parent also deletes the child. Then, two parents are necessary:
         // Project and ProjectTime.
-        ManageProjectDto manageProjectItem = this.manageProjectRepository
-            .findByProjectId(projectId);
+        List<ManageDto> manageProjectItem = this.manageProjectRepository
+            .findManageProjectByProjectId(projectId);
         
         ProjectTime projectTimeItem = this.projectTimeRepository
-            .findById(manageProjectItem.getProjectTimeId()).get();
+            .findById(manageProjectItem.get(0).getProjectTimeId()).get();
 
         // First parent to delete.
         this.projectRepository.deleteById(projectId);

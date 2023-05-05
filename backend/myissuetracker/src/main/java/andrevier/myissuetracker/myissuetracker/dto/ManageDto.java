@@ -1,9 +1,8 @@
 package andrevier.myissuetracker.myissuetracker.dto;
 
-public interface ManageProjectDto {
-    Long getManageProjectId();
+public interface ManageDto {
+    Long getManageId();
+    Long getUserId();
     Long getProjectId();
     Long getProjectTimeId();
-    Long getUserId();
-    
 }

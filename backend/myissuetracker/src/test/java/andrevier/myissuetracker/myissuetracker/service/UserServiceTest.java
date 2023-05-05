@@ -1,7 +1,5 @@
 package andrevier.myissuetracker.myissuetracker.service;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
-import andrevier.myissuetracker.myissuetracker.dto.UserRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.User;
 
 @SpringBootTest

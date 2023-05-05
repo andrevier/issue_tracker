@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
-
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequestDto;

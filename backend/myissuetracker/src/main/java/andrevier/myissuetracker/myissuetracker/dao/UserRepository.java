@@ -15,9 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     @Query(value = "SELECT u.user_id as userId,"
     + " u.user_name as userName,"
-    + " u.email as email"
+    + " u.user_email as email,"
     + " u.password as password"
-    + " FROM user_data as u", nativeQuery = true)
+    + " FROM user_data u", nativeQuery = true)
     public List<UserRequestDto> findAllUsers();
     
 }
