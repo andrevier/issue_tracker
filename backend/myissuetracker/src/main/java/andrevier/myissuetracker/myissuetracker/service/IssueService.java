@@ -92,14 +92,14 @@ public class IssueService {
      }
  
      public void deleteIssue(long issueId) {
-         ManageIssueDto manageIssueItem = this.manageIssueRepository
-             .findByIssueId(issueId);
+        ManageIssueDto manageIssueItem = this.manageIssueRepository
+            .findByIssueId(issueId);
          
-         IssueTime issueTime =  this.issueTimeRepository
-             .getReferenceById(manageIssueItem.getIssueTimeId());
+        IssueTime issueTime =  this.issueTimeRepository
+            .getReferenceById(manageIssueItem.getIssueTimeId());
          
-         this.issueRepository.deleteById(issueId);
-         this.issueTimeRepository.deleteById(issueTime.getIssueTimeId());
+        this.issueRepository.deleteById(issueId);
+        this.issueTimeRepository.deleteById(issueTime.getIssueTimeId());
          
      }
 }

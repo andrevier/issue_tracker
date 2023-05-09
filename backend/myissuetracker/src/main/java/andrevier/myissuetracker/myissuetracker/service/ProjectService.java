@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectTimeRepository;
@@ -27,6 +29,10 @@ public class ProjectService {
     private ProjectTimeRepository projectTimeRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private IssueRepository issueRepository;
+    @Autowired
+    private IssueService issueService;
     
     public List<ProjectRequestDto> getProjects() {
         return manageProjectRepository.getProjects();
@@ -72,7 +78,6 @@ public class ProjectService {
         // Update one project with information in the ProjectRequest object. 
         // Three entities are involved: Project, ManageProject, and ProjectTime.
         Long projectId = updatedProject.getProjectId();
-        
         // Access ManageProject object to find the time for the project.
         ManageDto manageProjectItem = 
             this.manageProjectRepository
@@ -103,11 +108,21 @@ public class ProjectService {
     }
 
     public void deleteProject(Long projectId) {
-        // Delete a project involves 3 classes: Project, ProjectTime and ManageProject.
-        // Deleting a parent also deletes the child. Then, two parents are necessary:
-        // Project and ProjectTime.
+        // Delete a project involves 3 classes: Project, ProjectTime and 
+        // ManageProject. If a project has issues, then, the issues must 
+        // be deleted first.
+        if (this.manageProjectRepository
+                .countIssuesInAProject(projectId) > 0) {
+            List<Long> issueIds = this.issueRepository
+                .findAllIssueIdsWithProjectId(projectId);
+
+            for (Long id: issueIds) {
+                this.issueService.deleteIssue(id);
+            }
+        } 
+
         ManageDto manageProjectItem = this.manageProjectRepository
-            .findManageProjectByProjectId(projectId);
+        .findManageProjectByProjectId(projectId);
         
         ProjectTime projectTimeItem = this.projectTimeRepository
             .findById(manageProjectItem.getProjectTimeId()).get();
@@ -115,7 +130,7 @@ public class ProjectService {
         // First parent to delete.
         this.projectRepository.deleteById(projectId);
         // Second parent to delete.
-        this.projectTimeRepository.deleteById(projectTimeItem.getProjectTimeId());
+        this.projectTimeRepository.deleteById(projectTimeItem.getProjectTimeId());        
         
     }
 

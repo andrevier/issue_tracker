@@ -57,4 +57,9 @@ public interface ManageProjectRepository extends JpaRepository<ManageProject, Lo
     + " JOIN project_time pt ON mp.project_time_id = pt.project_time_id"
     + " WHERE mp.project_id = :projectId", nativeQuery = true)
     public ProjectRequestDto findProjectById(Long projectId);
+
+    @Query(value = "SELECT COUNT(DISTINCT i.project_id)"
+    + " FROM issue_data i"
+    + " WHERE i.project_id = :projectId", nativeQuery = true)
+    public int countIssuesInAProject(Long projectId);
 }

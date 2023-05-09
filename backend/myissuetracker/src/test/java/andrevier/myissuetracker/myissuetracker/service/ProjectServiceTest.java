@@ -5,16 +5,20 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
+import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
+import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
 import andrevier.myissuetracker.myissuetracker.model.User;
 
 @SpringBootTest
@@ -29,7 +33,13 @@ public class ProjectServiceTest {
     private ProjectTimeRepository projectTimeRepository;
     @Autowired
     private ManageProjectRepository manageRepository;
-    
+    @Autowired
+    private IssueService issueService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private IssueRepository issueRepository;
+
     @Test
     public void testInitializatiaon() {
         assertThat(this.service).isNotNull();
@@ -37,6 +47,7 @@ public class ProjectServiceTest {
         assertThat(this.projectRepository).isNotNull();
         assertThat(this.projectTimeRepository).isNotNull();
         assertThat(this.manageRepository).isNotNull();
+        assertThat(this.issueService).isNotNull();
     }
 
     @Test
@@ -108,12 +119,125 @@ public class ProjectServiceTest {
 
     @Test
     void testDeleteProjectWithIssues() {
+        // If the project has one or more issues, the issues have to be deleted
+        // first.
 
+        // Register a new user.
+        UserRequest createdUser = this.userService.registerUser(
+            new UserRequest(
+                null,
+                "Juan Paes",
+                "juanpaes@gmail.com",
+                "juanl108"));
+
+        // Register a new project.
+        LocalDateTime startingTime = LocalDateTime.of(2023,5,10,9,50);
+        
+        ProjectRequest createdProject = this.service.createProject(
+            new ProjectRequest(
+                "Go to Pedra do Sino",
+                "Plan to stay a weekend in the Pedra do sino.",
+                startingTime,
+                startingTime.plusMonths(5)),
+            createdUser.getUserId());
+        
+        // The user register 3 new issues in this project.
+        IssueRequest createdIssue = this.issueService.createIssueInAProject(
+            createdProject.getProjectId(), 
+            createdUser.getUserId(), 
+            new IssueRequest(
+                "Choose a weekend",
+                "Choose a possible weekend with good weather to go.",
+                "normal",
+                startingTime,
+                startingTime.plusDays(7)));
+
+        IssueRequest createdIssue2 = this.issueService.createIssueInAProject(
+            createdProject.getProjectId(),
+            createdUser.getUserId(),
+            new IssueRequest(
+                "Check how much I can spend",
+                "Check my savings.", 
+                "normal",
+                startingTime.plusDays(8), 
+                startingTime.plusDays(17)));
+        
+        IssueRequest createdIssue3 = this.issueService.createIssueInAProject(
+            createdProject.getProjectId(),
+            createdUser.getUserId(),
+            new IssueRequest(
+                "Look for a place to stay",
+                "Look for hostels, airbnb and other options to stay.",
+                "normal",
+                startingTime.plusDays(17), 
+                startingTime.plusDays(21)));
+        
+        // When 
+        this.service.deleteProject(createdProject.getProjectId());
+
+        // Assert that the project is not in the table.
+        assertThat(this.projectRepository.findById(createdProject.getProjectId()))
+            .isEqualTo(Optional.empty());
+
+        // All issues have been deleted.
+        assertThat(this.issueRepository.findAllIssueIdsWithProjectId(
+            createdProject.getProjectId()).size()).isEqualTo(0);
+        
     }
 
     @Test
     void testUpdateProjectWithIssues() {
+        // Register a new user.
+        UserRequest createdUser = this.userService.registerUser(
+            new UserRequest(
+                null,
+                "Pablo Arruba",
+                "pablosoy@gmail.com",
+                "pablo108"));
 
+        // Register a new project.
+        LocalDateTime startingTime = LocalDateTime.of(2023,5,10,9,50);
+        
+        ProjectRequest createdProject = this.service.createProject(
+            new ProjectRequest(
+                "Go to Ilha Bela",
+                "Plan to stay a weekend in the Ilha Bela.",
+                startingTime,
+                startingTime.plusMonths(5)),
+            createdUser.getUserId());
+        
+        // The user register 3 new issues in this project.
+        IssueRequest createdIssue = this.issueService.createIssueInAProject(
+            createdProject.getProjectId(), 
+            createdUser.getUserId(), 
+            new IssueRequest(
+                "Choose a weekend",
+                "Choose a possible weekend with good weather to go.",
+                "normal",
+                startingTime,
+                startingTime.plusDays(7)));
+        
+        // When the project is updated.
+        createdProject.setProjectName("Go to Ilha Bela");
+        
+        createdProject.setProjectDescription("Choose a weekend in october to go.");
+
+        this.service.updateProject(createdProject);
+
+        // Asserts
+        List<ProjectRequestDto> projectList = this.service
+            .getProjectsWithUserId(createdUser.getUserId());
+
+        assertThat(projectList.size()).isEqualTo(1);
+
+        assertThat(projectList.get(0).getProjectId())
+            .isEqualTo(createdProject.getProjectId());
+        
+        assertThat(projectList.get(0).getProjectName())
+            .isEqualTo(createdProject.getProjectName());
+        
+        assertThat(projectList.get(0).getProjectDescription())
+            .isEqualTo(createdProject.getProjectDescription());
     }
     
     @Test
