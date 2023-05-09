@@ -73,6 +73,21 @@ public class ProjectService {
         // Three entities are involved: Project, ManageProject, and ProjectTime.
         Long projectId = updatedProject.getProjectId();
         
+        // Access ManageProject object to find the time for the project.
+        ManageDto manageProjectItem = 
+            this.manageProjectRepository
+            .findManageProjectByProjectId(projectId);
+
+        ProjectTime projectTimeItem = this.projectTimeRepository
+            .findById(manageProjectItem.getProjectTimeId()).get();
+
+        // Updating the time instances.
+        projectTimeItem.setStartingDate(updatedProject.getStartingDate());
+        
+        projectTimeItem.setDeadline(updatedProject.getDeadline());
+
+        this.projectTimeRepository.save(projectTimeItem);
+        
         // Updating the name and description.
         Project projectItem = this.projectRepository.findById(projectId).get();
 
@@ -83,20 +98,7 @@ public class ProjectService {
 
         this.projectRepository.save(projectItem);
         
-        // Access ManageProject object to find the time for the project.
-        List<ManageDto> manageProjectItem = 
-            this.manageProjectRepository
-            .findManageProjectByProjectId(projectId);
-
-        ProjectTime projectTimeItem = this.projectTimeRepository
-            .findById(manageProjectItem.get(0).getProjectTimeId()).get();
-
-        // Updating the time instances.
-        projectTimeItem.setStartingDate(updatedProject.getStartingDate());
         
-        projectTimeItem.setDeadline(updatedProject.getDeadline());
-
-        this.projectTimeRepository.save(projectTimeItem);
 
     }
 
@@ -104,11 +106,11 @@ public class ProjectService {
         // Delete a project involves 3 classes: Project, ProjectTime and ManageProject.
         // Deleting a parent also deletes the child. Then, two parents are necessary:
         // Project and ProjectTime.
-        List<ManageDto> manageProjectItem = this.manageProjectRepository
+        ManageDto manageProjectItem = this.manageProjectRepository
             .findManageProjectByProjectId(projectId);
         
         ProjectTime projectTimeItem = this.projectTimeRepository
-            .findById(manageProjectItem.get(0).getProjectTimeId()).get();
+            .findById(manageProjectItem.getProjectTimeId()).get();
 
         // First parent to delete.
         this.projectRepository.deleteById(projectId);

@@ -5,15 +5,14 @@ public class UserRequest implements UserRequestDto{
     private String userName;
     private String password;
     private String email;
-
     
     public UserRequest() {
     }
 
     public UserRequest(
-        String email,String password) {
-        this.userId = null;
-        this.userName = null;
+        Long userId, String userName, String email, String password) {
+        this.userId = userId;
+        this.userName = userName;
         this.password = password;
         this.email = email;
     }
@@ -41,9 +40,17 @@ public class UserRequest implements UserRequestDto{
         return this.password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getEmail() {
         return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

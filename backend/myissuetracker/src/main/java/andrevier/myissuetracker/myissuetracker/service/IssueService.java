@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageIssueRepository;
-import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
@@ -42,7 +41,9 @@ public class IssueService {
          Long userId,
          IssueRequest issueRequest) {
          Project project = this.projectRepository.getReferenceById(projectId);
+
          User user = this.userRepository.getReferenceById(userId);
+         
          IssueTime timeForIssue = this.issueTimeRepository.save(
              new IssueTime(
                      issueRequest.getStartingDate(),
@@ -62,26 +63,32 @@ public class IssueService {
          return issueRequest;
      }
  
-     public IssueRequest updateIssue(IssueRequest issueRequest) {
+     public void updateIssue(IssueRequest issueRequest) {
          // Update the issue in a project. The only attribute that
          // cannot be updated is the project id.
-         Issue updatedIssue = this.issueRepository.getReferenceById(
-             issueRequest.getIssueId());
+         Long issueId = issueRequest.getIssueId();
+
+         Issue updatedIssue = this.issueRepository.findById(issueId).get();//.getReferenceById(issueId);
+
          updatedIssue.setIssueName(issueRequest.getIssueName());
+
          updatedIssue.setIssueDescription(issueRequest.getIssueDescription());
+
          updatedIssue.setPriorityLabel(issueRequest.getPriorityLabel());
+
          this.issueRepository.save(updatedIssue);
  
          ManageIssueDto manageIssue = this.manageIssueRepository
-             .findByIssueId(issueRequest.getIssueId());
+            .findByIssueId(issueId);
  
-         IssueTime issueTime = this.issueTimeRepository.getReferenceById(
-             manageIssue.getIssueTimeId());
+         IssueTime issueTime = this.issueTimeRepository.findById(
+             manageIssue.getIssueTimeId()).get();
  
          issueTime.setStartingDate(issueRequest.getStartingDate());
+
          issueTime.setDeadline(issueRequest.getDeadline());
+         
          this.issueTimeRepository.save(issueTime);
-         return issueRequest;
      }
  
      public void deleteIssue(long issueId) {

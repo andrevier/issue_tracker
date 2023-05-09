@@ -45,7 +45,7 @@ public interface ManageProjectRepository extends JpaRepository<ManageProject, Lo
     + " mp.project_time_id as projectTimeId"
     + " FROM manage_project mp WHERE mp.project_Id = :projectId",
      nativeQuery = true)
-    public List<ManageDto> findManageProjectByProjectId(Long projectId);
+    public ManageDto findManageProjectByProjectId(Long projectId);
 
     @Query(value = "SELECT mp.project_id as projectId,"
     + " p.project_name as projectName,"

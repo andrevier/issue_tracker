@@ -15,9 +15,6 @@ import andrevier.myissuetracker.myissuetracker.dao.ProjectTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
-import andrevier.myissuetracker.myissuetracker.model.ManageProject;
-import andrevier.myissuetracker.myissuetracker.model.Project;
-import andrevier.myissuetracker.myissuetracker.model.ProjectTime;
 import andrevier.myissuetracker.myissuetracker.model.User;
 
 @SpringBootTest
@@ -75,7 +72,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    void testDeleteProject() {
+    void testDeleteProjectWithoutIssues() {
         // Delete an existing project.
         LocalDateTime startingTime = LocalDateTime.of(2023,5,10,9,50);
 
@@ -109,6 +106,16 @@ public class ProjectServiceTest {
 
     }
 
+    @Test
+    void testDeleteProjectWithIssues() {
+
+    }
+
+    @Test
+    void testUpdateProjectWithIssues() {
+
+    }
+    
     @Test
     void testGetProjectsWithUserId() {
         // Get all projects for an user with the user's id.

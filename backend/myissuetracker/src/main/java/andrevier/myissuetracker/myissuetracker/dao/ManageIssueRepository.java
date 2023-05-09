@@ -28,5 +28,19 @@ public interface ManageIssueRepository extends JpaRepository<ManageIssue, Long>{
     + " mi.user_id as userId"
     + " FROM manage_issue mi WHERE mi.issue_id = :issueId", nativeQuery = true)
     public ManageIssueDto findByIssueId(Long issueId);
+
+    @Query(value = "SELECT"
+    + " i.issue_id as issueId, i.issue_name as issueName,"
+    + " i.issue_description as issueDescription,"
+    + " it.starting_date as startingDate,"
+    + " it.deadline as deadline,"
+    + " i.priority_label as priorityLabel"
+    + " FROM manage_issue mi"
+    + " JOIN issue_data i ON mi.issue_id = i.issue_id"
+    + " JOIN issue_time it ON mi.issue_time_id = it.issue_time_id"
+    + " WHERE mi.user_id = :userId"
+    + " AND i.project_id = :projectId"
+    + " AND i.issue_id = :issueId", nativeQuery = true)
+    IssueRequestDto findIssueRequestDtoByIds(Long userId, Long projectId, Long issueId);
     
 }

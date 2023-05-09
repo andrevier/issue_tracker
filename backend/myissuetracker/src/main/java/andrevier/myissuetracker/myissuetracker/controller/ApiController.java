@@ -110,8 +110,9 @@ public class ApiController {
     }
 
     @PutMapping("/update-issue")
-    public IssueRequest updateIssue(@RequestBody IssueRequest request) {
-        return this.issueService.updateIssue(request);
+    public String updateIssue(@RequestBody IssueRequest request) {
+        this.issueService.updateIssue(request);
+        return "Updated.";
     }
 
     @DeleteMapping("/delete-issue/{issueId}")

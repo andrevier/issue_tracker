@@ -157,11 +157,11 @@ public class ManageProjectRepositoryTest {
                 new ManageProject(user1Project1, user1ProjectTime1, user1));        
 
         // When
-        List<ManageDto> manageList = this.manageRepo
+        ManageDto manageProject = this.manageRepo
                 .findManageProjectByProjectId(user1Project1.getProjectId());
         
         // Assert
-        assertThat(manageList.size()).isEqualTo(1);
+        assertThat(manageProject).isNotNull();
 
     }   
     

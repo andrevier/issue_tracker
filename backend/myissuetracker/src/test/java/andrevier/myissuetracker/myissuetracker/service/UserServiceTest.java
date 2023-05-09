@@ -25,6 +25,7 @@ public class UserServiceTest {
             "Mauricio de Castro", "macadorio", "maumau@gmail.com"));
         
         UserRequest userRequested = new UserRequest(
+            null, null,
             user1.getEmail(), user1.getPassword());
 
         // When.
@@ -40,8 +41,8 @@ public class UserServiceTest {
     void testRegisterUser() {
         // When the client request a new user with all necessary data.
         UserRequest userRequest = new UserRequest(
+            null, "Maurillo Abelar",
             "maurilloAbelar@gmail.com", "souMaurillo");
-        userRequest.setUserName("Maurillo Abelar");
 
         UserRequest userRegistered = this.userService.registerUser(userRequest);
 
