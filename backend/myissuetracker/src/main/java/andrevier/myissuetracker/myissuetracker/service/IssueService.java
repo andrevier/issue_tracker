@@ -17,7 +17,7 @@ import andrevier.myissuetracker.myissuetracker.model.Issue;
 import andrevier.myissuetracker.myissuetracker.model.IssueTime;
 import andrevier.myissuetracker.myissuetracker.model.ManageIssue;
 import andrevier.myissuetracker.myissuetracker.model.Project;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @Service
 public class IssueService {
@@ -42,7 +42,7 @@ public class IssueService {
          IssueRequest issueRequest) {
          Project project = this.projectRepository.getReferenceById(projectId);
 
-         User user = this.userRepository.getReferenceById(userId);
+         UserData user = this.userRepository.getReferenceById(userId);
          
          IssueTime timeForIssue = this.issueTimeRepository.save(
              new IssueTime(

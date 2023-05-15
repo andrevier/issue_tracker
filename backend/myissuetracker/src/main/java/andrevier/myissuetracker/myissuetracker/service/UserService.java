@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequestDto;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @Service
 public class UserService {
@@ -20,14 +20,14 @@ public class UserService {
     }
 
     public UserRequest registerUser(UserRequest user) {
-        User existsUser = userRepository.findByEmail(user.getEmail());
+        UserData existsUser = userRepository.findByEmail(user.getEmail());
         
         if (existsUser != null) {
             throw new Error("User already exists.");
         }
 
-        User newUser = userRepository.save(
-            new User(user.getUserName(), user.getPassword(),user.getEmail()));
+        UserData newUser = userRepository.save(
+            new UserData(user.getUserName(), user.getPassword(),user.getEmail()));
         
         user.setUserId(newUser.getUserId());
         return user;
@@ -35,7 +35,7 @@ public class UserService {
 
     public UserRequest login(UserRequest user) {
         //find user with email and password.
-        User loginUser = userRepository.findByEmail(user.getEmail());
+        UserData loginUser = userRepository.findByEmail(user.getEmail());
         if (loginUser == null){
             throw new Error("email not found.");
         } else if (!loginUser.getPassword().equals(user.getPassword())) {

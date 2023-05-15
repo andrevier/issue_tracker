@@ -52,16 +52,16 @@ public class ManageIssue {
     )
     private IssueTime issueTime;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = UserData.class)
     @JsonBackReference
     @JoinColumn(
         name="user_id", referencedColumnName = "user_id",
         nullable = false, 
         foreignKey = @ForeignKey(name = "user_id_manage_issue_FK")
     )
-    private User user;
+    private UserData user;
 
-    public ManageIssue(Issue issue, IssueTime issueTime, User user) {
+    public ManageIssue(Issue issue, IssueTime issueTime, UserData user) {
         this.issue = issue;
         this.issueTime = issueTime;
         this.user = user;
@@ -87,11 +87,11 @@ public class ManageIssue {
         this.issueTime = issueTime;
     }
     
-    public User getUser() {
+    public UserData getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserData user) {
         this.user = user;
     }
     

@@ -17,7 +17,7 @@ import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.ProjectTime;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @Service
 public class ProjectService {
@@ -61,7 +61,7 @@ public class ProjectService {
                     newProject.getStartingDate(),
                     newProject.getDeadline()));
         
-        User newUser = userRepository.findByUserId(userId);
+        UserData newUser = userRepository.findByUserId(userId);
 
         manageProjectRepository.save(
             new ManageProject( p1, p1Time, newUser)

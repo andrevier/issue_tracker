@@ -18,7 +18,7 @@ import jakarta.persistence.UniqueConstraint;
 @Table(name = "user_data", uniqueConstraints = {
         @UniqueConstraint(name = "user_email_unique", columnNames = "user_email")
 })
-public class User {
+public class UserData {
 
     @Id
     @SequenceGenerator(
@@ -50,13 +50,13 @@ public class User {
     @JsonManagedReference
     private List<ManageIssue> manageIssueList;
 
-    public User() {
+    public UserData() {
        this.userName = "";
        this.email = "";
        this.password = "";
     }
 
-    public User(String userName, String password, String email) {
+    public UserData(String userName, String password, String email) {
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -139,10 +139,10 @@ public class User {
         if(this == o) {
             return true;
         }
-        if (!(o instanceof User)) {
+        if (!(o instanceof UserData)) {
             return false;
         }
-        User other = (User) o;
+        UserData other = (UserData) o;
         return (other.getUserId() != null) && (other.getEmail() == this.email);
     }
 
