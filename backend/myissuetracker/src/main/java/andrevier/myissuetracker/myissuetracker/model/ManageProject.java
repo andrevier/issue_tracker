@@ -47,21 +47,21 @@ public class ManageProject {
     )
     private ProjectTime projectTime;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = UserData.class)
     @JsonBackReference
     @JoinColumn(
         name="user_id", 
         nullable = false,
         foreignKey = @ForeignKey(name = "user_id_manage_project_FK")
         )
-    private User user;
+    private UserData user;
     
     public ManageProject() {}
 
     public ManageProject(
         Project project,
         ProjectTime projectTime,
-        User user){
+        UserData user){
             this.project = project;
             this.projectTime = projectTime;
             this.user = user;
@@ -91,11 +91,11 @@ public class ManageProject {
         this.projectTime = projectTime;
     }
 
-    public User getUser() {
+    public UserData getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserData user) {
         this.user = user;
     }
     

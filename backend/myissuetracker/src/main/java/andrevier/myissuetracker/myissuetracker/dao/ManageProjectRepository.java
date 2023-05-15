@@ -8,13 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import andrevier.myissuetracker.myissuetracker.dto.ManageDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 
 public interface ManageProjectRepository extends JpaRepository<ManageProject, Long>{
 
     
-    public List<ManageProject> findByUser(User user);
+    public List<ManageProject> findByUser(UserData user);
 
     @Query(value = "SELECT v.project_id as projectId,"
     + " v.project_name as projectName,"

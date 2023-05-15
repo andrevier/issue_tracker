@@ -19,7 +19,7 @@ import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @SpringBootTest
 public class ProjectServiceTest {
@@ -61,8 +61,8 @@ public class ProjectServiceTest {
             LocalDateTime.now().plusMonths(5));
         
         // For the user.
-        User user1 = this.userRepository.save(
-            new User(
+        UserData user1 = this.userRepository.save(
+            new UserData(
                 "Marcos Vinicios Gamboa",
                 "marcos247",
                 "mavigamboa@gmail.com"));
@@ -96,8 +96,8 @@ public class ProjectServiceTest {
             deadline);
         
         // For the user.
-        User user1 = this.userRepository.save(
-            new User(
+        UserData user1 = this.userRepository.save(
+            new UserData(
                 "Marcus Correa Bulhoes",
                 "mabu24",
                 "macobu@gmail.com"));
@@ -254,8 +254,8 @@ public class ProjectServiceTest {
             deadline);
         
         // For the user.
-        User user1 = this.userRepository.save(
-            new User(
+        UserData user1 = this.userRepository.save(
+            new UserData(
                 "Marcus Sampaio Goes",
                 "marcusgoes24",
                 "masago@gmail.com"));
@@ -301,8 +301,8 @@ public class ProjectServiceTest {
             deadline);
         
         // For the user.
-        User user1 = this.userRepository.save(
-            new User(
+        UserData user1 = this.userRepository.save(
+            new UserData(
                 "Marcus Rivera Goes",
                 "marcusgoes24",
                 "marigo@gmail.com"));
@@ -346,8 +346,8 @@ public class ProjectServiceTest {
             deadline);
         
         // For the user.
-        User user1 = this.userRepository.save(
-            new User(
+        UserData user1 = this.userRepository.save(
+            new UserData(
                 "Marcus Aurelius",
                 "marcus247",
                 "maau@gmail.com"));

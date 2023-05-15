@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -20,8 +20,8 @@ public class UserServiceTest {
     @Test
     void testLogin() {
         // Test the login method for a user.
-        User user1 = this.userRepo.save(
-            new User(
+        UserData user1 = this.userRepo.save(
+            new UserData(
             "Mauricio de Castro", "macadorio", "maumau@gmail.com"));
         
         UserRequest userRequested = new UserRequest(

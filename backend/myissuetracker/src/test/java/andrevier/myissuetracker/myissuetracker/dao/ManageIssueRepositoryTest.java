@@ -17,7 +17,7 @@ import andrevier.myissuetracker.myissuetracker.model.ManageIssue;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.ProjectTime;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @SpringBootTest
 public class ManageIssueRepositoryTest {
@@ -46,8 +46,8 @@ public class ManageIssueRepositoryTest {
     void testFindByIssueId() {
         // Test to find issues by id. Given the following user,
         // project and issue registered.
-        User user1 = this.userRepo.save(
-            new User(
+        UserData user1 = this.userRepo.save(
+            new UserData(
                     "Domenico Almeida",
                     "domeniconarede",
                     "domenico@gmail.com"));
@@ -93,8 +93,8 @@ public class ManageIssueRepositoryTest {
     void testFindIssuesByProjectAndUser() {
         // Test to find issues by id. Given the following user,
         // project and issue registered.
-        User user1 = this.userRepo.save(
-            new User(
+        UserData user1 = this.userRepo.save(
+            new UserData(
                     "Mauro Almeida",
                     "mauroconarede",
                     "mauroal@gmail.com"));

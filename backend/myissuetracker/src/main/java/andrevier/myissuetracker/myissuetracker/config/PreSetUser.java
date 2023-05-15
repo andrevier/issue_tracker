@@ -20,7 +20,7 @@ import andrevier.myissuetracker.myissuetracker.model.ManageIssue;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.ProjectTime;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @Configuration
 public class PreSetUser {
@@ -35,15 +35,15 @@ public class PreSetUser {
             ManageIssueRepository manageIssueRepository,
             IssueTimeRepository issueTimeRepository) {
         return args -> {
-            User user1 = new User(
+            UserData user1 = new UserData(
                     "Marco de la Vega",
                     "marconet",
                     "marco@gmail.com");
-            User user2 = new User(
+            UserData user2 = new UserData(
                     "Maria Barros",
                     "marianarede",
                     "maria@gmail.com");
-            User user3 = new User(
+            UserData user3 = new UserData(
                     "Dora Campos",
                     "doranarede",
                     "dora@gmail.com");

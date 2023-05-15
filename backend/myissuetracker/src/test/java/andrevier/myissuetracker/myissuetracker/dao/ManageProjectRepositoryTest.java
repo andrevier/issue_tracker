@@ -14,7 +14,7 @@ import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.ProjectTime;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @SpringBootTest
 public class ManageProjectRepositoryTest {
@@ -34,7 +34,7 @@ public class ManageProjectRepositoryTest {
     @Test
     public void testFindByUser() {
         // // Given the user and one project registered.
-        User user1 = new User(
+        UserData user1 = new UserData(
                     "Jose Rojas Camomilla",
                     "jose108",
                     "joserojascamo@gmail.com");
@@ -68,7 +68,7 @@ public class ManageProjectRepositoryTest {
     @Test
     public void testFindProjectsByUserId() {
         // Given the user and three projects registered.
-        User user1 = new User(
+        UserData user1 = new UserData(
                     "Marco de la Vega",
                     "marconet",
                     "marcovega@gmail.com");
@@ -136,7 +136,7 @@ public class ManageProjectRepositoryTest {
     @Test
     public void testFindByProjectId() {
         // Given an user and a project.
-        User user1 = new User(
+        UserData user1 = new UserData(
                     "Felipe de la Vega",
                     "felipenet",
                     "felipenarede@gmail.com");

@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import andrevier.myissuetracker.myissuetracker.dto.UserRequestDto;
-import andrevier.myissuetracker.myissuetracker.model.User;
+import andrevier.myissuetracker.myissuetracker.model.UserData;
 
-public interface UserRepository extends JpaRepository<User, Long>{
-    public User findByEmail(String email);
+public interface UserRepository extends JpaRepository<UserData, Long>{
+    public UserData findByEmail(String email);
 
-    public User findByUserId(Long userId);
+    public UserData findByUserId(Long userId);
 
     @Query(value = "SELECT u.user_id as userId,"
     + " u.user_name as userName,"
