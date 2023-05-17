@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import andrevier.myissuetracker.myissuetracker.config.websecurity.Roles;
 import andrevier.myissuetracker.myissuetracker.dao.AuthorityRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
@@ -139,11 +140,19 @@ public class ProjectService {
         // Second parent to delete.
         this.projectTimeRepository.deleteById(projectTimeItem.getProjectTimeId());        
         
-        // Delete the authority PROJECT_ADMIN:<projectId> from All users.
-        List<Authority> listAuthorities = this.authorityRepository
-            .findAllAuthoritiesWithRole("PROJECT_ADMIN:" + projectId.toString());
+        // Delete the admin of this project from All users.
+        List<Authority> listAdminAuthorities = this.authorityRepository
+            .findAllAuthoritiesWithRole(Roles.projectAdmin(projectId));
         
-        for (Authority a : listAuthorities) {
+        for (Authority a : listAdminAuthorities) {
+            this.authorityRepository.deleteById(a.getAuthorityId());
+        }
+        
+        // Delete the authority to work in this project.
+        List<Authority> listNormalAuthorities = this.authorityRepository
+            .findAllAuthoritiesWithRole(Roles.project(projectId));
+        
+        for (Authority a : listNormalAuthorities) {
             this.authorityRepository.deleteById(a.getAuthorityId());
         }
     }
