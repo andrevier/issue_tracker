@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import andrevier.myissuetracker.myissuetracker.config.websecurity.Roles;
 import jakarta.persistence.Column;
 import jakarta.persistence.UniqueConstraint;
 
@@ -88,11 +89,11 @@ public class Project {
     }
 
     public String getProjectAdminAuthority() {
-        return "PROJECT_ADMIN" + ":" + this.projectId.toString();
+        return Roles.projectAdmin(this.projectId);
     }
 
     public String getProjectAuthority() {
-        return "PROJECT" + ":" + this.projectId.toString();
+        return Roles.project(this.projectId);
     }
 
     @Override

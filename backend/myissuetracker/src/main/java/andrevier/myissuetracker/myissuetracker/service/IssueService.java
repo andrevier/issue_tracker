@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import andrevier.myissuetracker.myissuetracker.config.websecurity.Roles;
+import andrevier.myissuetracker.myissuetracker.dao.AuthorityRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageIssueRepository;
@@ -13,6 +15,7 @@ import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.ManageIssueDto;
+import andrevier.myissuetracker.myissuetracker.model.Authority;
 import andrevier.myissuetracker.myissuetracker.model.Issue;
 import andrevier.myissuetracker.myissuetracker.model.IssueTime;
 import andrevier.myissuetracker.myissuetracker.model.ManageIssue;
@@ -31,7 +34,9 @@ public class IssueService {
     private IssueTimeRepository issueTimeRepository;
     @Autowired
     private IssueRepository issueRepository;
-
+    @Autowired
+    private AuthorityRepository authorityRepository;
+    
     public List<IssueRequestDto> getIssuesFromProject(Long projectId, Long userId) {
         return this.manageIssueRepository.findIssuesByProjectAndUser(projectId, userId);
      }
@@ -60,6 +65,10 @@ public class IssueService {
              new ManageIssue(issue, timeForIssue, user));
          
          issueRequest.setIssueId(issue.getIssueId());
+        
+         this.authorityRepository.save(
+            new Authority(Roles.issueAdmin(issue.getIssueId()), user));
+
          return issueRequest;
      }
  
@@ -100,6 +109,13 @@ public class IssueService {
          
         this.issueRepository.deleteById(issueId);
         this.issueTimeRepository.deleteById(issueTime.getIssueTimeId());
-         
+        
+        List<Authority> authorities = this.authorityRepository.findAllAuthoritiesWithRole(
+            Roles.issueAdmin(issueId));
+        
+        for (Authority a: authorities) {
+            this.authorityRepository.delete(a);
+        }
+        
      }
 }

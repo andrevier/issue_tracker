@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import andrevier.myissuetracker.myissuetracker.config.websecurity.Roles;
 import andrevier.myissuetracker.myissuetracker.dao.AuthorityRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
@@ -411,12 +412,12 @@ public class ProjectServiceTest {
 
         List<Authority> authorities = this.authorityRepository
             .findAllAuthoritiesWithRole(
-                "PROJECT_ADMIN:" + project.getProjectId().toString());
+                Roles.projectAdmin(project.getProjectId()));
         
         // Asserts.
         assertThat(authorities.size()).isEqualTo(1);
         assertThat(authorities.get(0).getAuthority()).isEqualTo(
-            "PROJECT_ADMIN:" + project.getProjectId().toString()
+            Roles.projectAdmin(project.getProjectId())
         );
     }
 
@@ -451,7 +452,7 @@ public class ProjectServiceTest {
 
         List<Authority> authorityList = this.authorityRepository
             .findAllAuthoritiesWithRole(
-                "PROJECT_ADMIN:" + projectCreated.getProjectId());
+                Roles.projectAdmin(projectCreated.getProjectId()));
         
         // Asserts.
         assertThat(authorityList).isEmpty();

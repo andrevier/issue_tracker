@@ -4,12 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import andrevier.myissuetracker.myissuetracker.config.websecurity.Roles;
+import andrevier.myissuetracker.myissuetracker.dao.AuthorityRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageIssueRepository;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.IssueRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
+import andrevier.myissuetracker.myissuetracker.model.Authority;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -26,7 +29,9 @@ public class IssueServiceTest {
     private UserService userService;
     @Autowired
     private ManageIssueRepository manageIssueRepo;
-
+    @Autowired
+    private AuthorityRepository authorityRepository;
+    
     @Test
     void testInitializations() {
         assertThat(this.issueService).isNotNull();
@@ -225,5 +230,96 @@ public class IssueServiceTest {
             .isEqualTo(createdIssue.getIssueName());
         assertThat(updatedIssue.getIssueDescription())
             .isEqualTo(createdIssue.getIssueDescription());
+    }
+
+    @Test
+    void testUserHasAuthorityWhenCreatesIssue() {
+        // Test if User has the authority passed when an issue is created.
+        // Register a new user.
+        UserRequest createdUser = this.userService.registerUser(
+            new UserRequest(
+                null,
+                "Alex Camargo Mauritano",
+                "alecamau@gmail.com",
+                "alecamau108"));
+
+        // Register a new project.
+        LocalDateTime startingTime = LocalDateTime.of(2023,5,10,9,50);
+        
+        ProjectRequest createdProject = this.projectService
+            .createProject(
+                new ProjectRequest(
+                    "Go to Norway",
+                    "plan my trip to Norway.",
+                    startingTime,
+                    startingTime.plusMonths(5)),
+                    createdUser.getUserId());
+        
+        // The user register a new issue in this project.
+        IssueRequest createdIssue = this.issueService.createIssueInAProject(
+            createdProject.getProjectId(), 
+            createdUser.getUserId(), 
+            new IssueRequest(
+                "Find the best season to go to Norway",
+                "Look for the tickets and their prices.",
+                "normal",
+                startingTime,
+                startingTime.plusDays(14)));
+
+        // When the issue all the authorities for this issue is searched.
+        List<Authority> authorities = this.authorityRepository
+            .findAllAuthoritiesWithRole(
+                Roles.issueAdmin(createdIssue.getIssueId()));
+        
+        // Asserts.
+        assertThat(authorities.size()).isEqualTo(1);
+
+        assertThat(authorities.get(0).getAuthority())
+            .isEqualTo(Roles.issueAdmin(createdIssue.getIssueId()));       
+        
+    }
+
+    @Test
+    void testDeleteAuthorityWhenIssueIsDeleted() {
+        // Test if all admin authorities are deleted when an issue is deleted.
+        UserRequest createdUser = this.userService.registerUser(
+            new UserRequest(
+                null,
+                "Gustavo Camargo Mauritano",
+                "gutacamau@gmail.com",
+                "gutacamau108"));
+
+        // Register a new project.
+        LocalDateTime startingTime = LocalDateTime.of(2023,5,10,9,50);
+        
+        ProjectRequest createdProject = this.projectService
+            .createProject(
+                new ProjectRequest(
+                    "Go to Bora-bora island",
+                    "plan my trip to Bora-bora.",
+                    startingTime,
+                    startingTime.plusMonths(5)),
+                    createdUser.getUserId());
+        
+        // The user register a new issue in this project.
+        IssueRequest createdIssue = this.issueService.createIssueInAProject(
+            createdProject.getProjectId(), 
+            createdUser.getUserId(), 
+            new IssueRequest(
+                "Find the best season to go to Bora-bora",
+                "Look for the tickets and their prices.",
+                "normal",
+                startingTime,
+                startingTime.plusDays(14)));
+        
+        // Delete an issue.
+        this.issueService.deleteIssue(createdIssue.getIssueId());
+
+        // Assert
+        List<Authority> authorities = this.authorityRepository
+            .findAllAuthoritiesWithRole(
+                Roles.issueAdmin(createdIssue.getIssueId()));
+        
+        assertThat(authorities).isEmpty();
     }
 }

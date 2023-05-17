@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import andrevier.myissuetracker.myissuetracker.config.websecurity.Roles;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -107,7 +108,7 @@ public class Issue {
     }
 
     public String getIssueAdminAuthority() {
-        return "ISSUE_ADMIN" + ":" + this.issueId.toString();
+        return Roles.issueAdmin(issueId);
     }
 
     @Override
