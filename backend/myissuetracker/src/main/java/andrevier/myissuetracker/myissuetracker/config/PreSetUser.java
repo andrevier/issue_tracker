@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import andrevier.myissuetracker.myissuetracker.dao.AuthorityRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageIssueRepository;
@@ -14,6 +15,7 @@ import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectTimeRepository;
 import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
+import andrevier.myissuetracker.myissuetracker.model.Authority;
 import andrevier.myissuetracker.myissuetracker.model.Issue;
 import andrevier.myissuetracker.myissuetracker.model.IssueTime;
 import andrevier.myissuetracker.myissuetracker.model.ManageIssue;
@@ -33,7 +35,8 @@ public class PreSetUser {
             ManageProjectRepository manageProjectRepository,
             IssueRepository issueRepository,
             ManageIssueRepository manageIssueRepository,
-            IssueTimeRepository issueTimeRepository) {
+            IssueTimeRepository issueTimeRepository,
+            AuthorityRepository authorityRepository) {
         return args -> {
             UserData user1 = new UserData(
                     "Marco de la Vega",
@@ -60,7 +63,11 @@ public class PreSetUser {
                     new ProjectTime(
                             LocalDateTime.parse("2023-04-17T09:20:30"),
                             LocalDateTime.parse("2024-08-31T15:20:30")));
-                       
+            
+            authorityRepository.save(
+                new Authority(user1p1.getProjectAdminAuthority(), user1)
+            );
+
             manageProjectRepository.save(
                     new ManageProject( user1p1, user1p1Time, user1)
             );
@@ -81,6 +88,9 @@ public class PreSetUser {
             manageIssueRepository.save(
                 new ManageIssue(issue1, timeForIssue1, user1));
             
+            authorityRepository.save(
+                new Authority(issue1.getIssueAdminAuthority(), user1)
+            );
             // (2)
             IssueTime timeForIssue2 = issueTimeRepository.save(
                 new IssueTime(
@@ -97,6 +107,9 @@ public class PreSetUser {
             manageIssueRepository.save(
                 new ManageIssue(issue2, timeForIssue2, user1));
             
+            authorityRepository.save(
+                new Authority(issue2.getIssueAdminAuthority(), user1)
+            );
             // (3)
             IssueTime timeForIssue3 = issueTimeRepository.save(
                 new IssueTime(
@@ -113,6 +126,9 @@ public class PreSetUser {
             manageIssueRepository.save(
                 new ManageIssue(issue3, timeForIssue3, user1));
             
+            authorityRepository.save(
+                new Authority(issue3.getIssueAdminAuthority(), user1)
+            );
             // Project 2 for user 1.
             Project user1p2 = projectRepository.save(
                     new Project(
@@ -127,7 +143,9 @@ public class PreSetUser {
             manageProjectRepository.save(
                     new ManageProject(user1p2, user1p2Time, user1)
             );
-
+            authorityRepository.save(
+                new Authority(user1p2.getProjectAdminAuthority(), user1)
+            );
             // Issues from the project 2 for user 1.
             // (1)
             IssueTime timeForIssue1OfP2 = issueTimeRepository.save(
@@ -145,6 +163,9 @@ public class PreSetUser {
             manageIssueRepository.save(
                 new ManageIssue(issue1OfP2, timeForIssue1OfP2, user1));
             
+            authorityRepository.save(
+                new Authority(issue1OfP2.getIssueAdminAuthority(), user1)
+            );
             // (2)
             IssueTime timeForIssue2OfP2 = issueTimeRepository.save(
                 new IssueTime(
@@ -161,6 +182,9 @@ public class PreSetUser {
             manageIssueRepository.save(
                 new ManageIssue(issue2OfP2, timeForIssue2OfP2, user1));
             
+            authorityRepository.save(
+                new Authority(issue2OfP2.getIssueAdminAuthority(), user1)
+            );
             // (3)
             IssueTime timeForIssue3OfP2 = issueTimeRepository.save(
                 new IssueTime(
@@ -177,6 +201,9 @@ public class PreSetUser {
             manageIssueRepository.save(
                 new ManageIssue(issue3OfP2, timeForIssue3OfP2, user1));
 
+            authorityRepository.save(
+                new Authority(issue3OfP2.getIssueAdminAuthority(), user1)
+            );
             // Project 3 for user 1
             Project user1p3 = projectRepository.save(
                 new Project(
@@ -194,6 +221,9 @@ public class PreSetUser {
                 new ManageProject(user1p3, user1p3Time, user1)
             );
 
+            authorityRepository.save(
+                new Authority(user1p3.getProjectAdminAuthority(), user1)
+            );
             // Projects of user 2.
             Project user2p1 = projectRepository.save(
                     new Project(
@@ -208,6 +238,10 @@ public class PreSetUser {
             manageProjectRepository.save(
                     new ManageProject( user2p1, user2p1Time, user2)
             );
+
+            authorityRepository.save(
+                new Authority(user2p1.getProjectAdminAuthority(), user2)
+            );
             //
             Project user2p2 = projectRepository.save(
                     new Project(
@@ -221,6 +255,10 @@ public class PreSetUser {
 
             manageProjectRepository.save(
                     new ManageProject(user2p2, user2p2Time, user2)
+            );
+
+            authorityRepository.save(
+                new Authority(user2p2.getProjectAdminAuthority(), user2)
             );
             //
             Project user2p3 = projectRepository.save(
@@ -238,7 +276,9 @@ public class PreSetUser {
             manageProjectRepository.save(
                 new ManageProject(user2p3, user2p3Time, user2)
             );
-
+            authorityRepository.save(
+                new Authority(user2p3.getProjectAdminAuthority(), user2)
+            );
             // Projects from user 3.
             Project user3p1 = projectRepository.save(
                     new Project(
@@ -251,7 +291,10 @@ public class PreSetUser {
                             LocalDateTime.parse("2024-08-31T15:20:30")));
                        
             manageProjectRepository.save(
-                    new ManageProject( user3p1, user3p1Time, user3)
+                    new ManageProject(user3p1, user3p1Time, user3)
+            );
+            authorityRepository.save(
+                new Authority(user3p1.getProjectAdminAuthority(), user3)
             );
             //
             Project user3p2 = projectRepository.save(
@@ -267,6 +310,10 @@ public class PreSetUser {
             manageProjectRepository.save(
                     new ManageProject(user3p2, user3p2Time, user3)
             );
+            
+            authorityRepository.save(
+                new Authority(user3p2.getProjectAdminAuthority(), user3)
+            );
             //
             Project user3p3 = projectRepository.save(
                 new Project(
@@ -274,7 +321,7 @@ public class PreSetUser {
                     "Organize information and write a book."
                 )
             );
-            //
+            
             ProjectTime user3p3Time = projectTimeRepository.save(
                 new ProjectTime(
                     LocalDateTime.parse("2023-04-20T09:20:30"),
@@ -282,6 +329,10 @@ public class PreSetUser {
             
             manageProjectRepository.save(
                 new ManageProject(user3p3, user3p3Time, user3)
+            );
+
+            authorityRepository.save(
+                new Authority(user3p3.getProjectAdminAuthority(), user3)
             );
         };
     }

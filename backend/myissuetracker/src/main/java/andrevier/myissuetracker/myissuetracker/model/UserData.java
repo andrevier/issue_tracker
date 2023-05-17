@@ -54,7 +54,8 @@ public class UserData {
     @JsonManagedReference
     private List<ManageIssue> manageIssueList;
 
-    //private final List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    @OneToMany(orphanRemoval = true, mappedBy= "userData")
+    private List<Authority> authorities = new ArrayList<>();
 
     @Column(name = "account_non_expired", nullable = false)
 	private boolean accountNonExpired;
@@ -76,7 +77,6 @@ public class UserData {
        this.accountNonLocked = true;
        this.credentialsNonExpired = true;
        this.enabled = true;
-       //this.authorities.add(new SimpleGrantedAuthority(Roles.user()));
     }
 
     public UserData(String userName, String password, String email) {
@@ -87,7 +87,6 @@ public class UserData {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
-        //this.authorities.add(new SimpleGrantedAuthority(Roles.user()));
     }
 
     public Long getUserId() {
@@ -140,7 +139,6 @@ public class UserData {
     public void setManageProjectList(List<ManageProject> manageProjectList) {
         this.manageProjectList = manageProjectList;
     }
-
         
     public List<ManageIssue> getManageIssueList() {
         return manageIssueList;
@@ -214,5 +212,13 @@ public class UserData {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public List<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
 }

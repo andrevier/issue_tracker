@@ -106,6 +106,10 @@ public class Issue {
         this.project = project;
     }
 
+    public String getIssueAdminAuthority() {
+        return "ISSUE_ADMIN" + ":" + this.issueId.toString();
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

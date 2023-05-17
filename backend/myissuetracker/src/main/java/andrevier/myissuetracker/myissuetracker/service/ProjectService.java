@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import andrevier.myissuetracker.myissuetracker.dao.AuthorityRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
@@ -14,6 +15,7 @@ import andrevier.myissuetracker.myissuetracker.dao.UserRepository;
 import andrevier.myissuetracker.myissuetracker.dto.ManageDto;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
+import andrevier.myissuetracker.myissuetracker.model.Authority;
 import andrevier.myissuetracker.myissuetracker.model.ManageProject;
 import andrevier.myissuetracker.myissuetracker.model.Project;
 import andrevier.myissuetracker.myissuetracker.model.ProjectTime;
@@ -33,7 +35,9 @@ public class ProjectService {
     private IssueRepository issueRepository;
     @Autowired
     private IssueService issueService;
-    
+    @Autowired
+    private AuthorityRepository authorityRepository;
+
     public List<ProjectRequestDto> getProjects() {
         return manageProjectRepository.getProjects();
     }
@@ -71,6 +75,10 @@ public class ProjectService {
         // to the Project request before returning.
         newProject.setProjectId(p1.getProjectId());
 
+        // Add authority to the user.
+        this.authorityRepository.save(
+            new Authority(p1.getProjectAdminAuthority(), newUser));
+        
         return newProject;
     }
 
@@ -101,9 +109,7 @@ public class ProjectService {
         projectItem.setProjectDescription(
             updatedProject.getProjectDescription());
 
-        this.projectRepository.save(projectItem);
-        
-        
+        this.projectRepository.save(projectItem);        
 
     }
 
@@ -129,11 +135,16 @@ public class ProjectService {
 
         // First parent to delete.
         this.projectRepository.deleteById(projectId);
+        
         // Second parent to delete.
         this.projectTimeRepository.deleteById(projectTimeItem.getProjectTimeId());        
         
+        // Delete the authority PROJECT_ADMIN:<projectId> from All users.
+        List<Authority> listAuthorities = this.authorityRepository
+            .findAllAuthoritiesWithRole("PROJECT_ADMIN:" + projectId.toString());
+        
+        for (Authority a : listAuthorities) {
+            this.authorityRepository.deleteById(a.getAuthorityId());
+        }
     }
-
-    
-
 }
