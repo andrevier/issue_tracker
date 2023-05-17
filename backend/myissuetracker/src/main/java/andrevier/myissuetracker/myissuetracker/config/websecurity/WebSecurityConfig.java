@@ -22,6 +22,7 @@ public class WebSecurityConfig {
         .formLogin(formLogin -> formLogin.permitAll())
         .httpBasic(Customizer.withDefaults());
         
+        // Enable csrf in production.
         http.csrf().disable();
 
         return http.build();

@@ -47,6 +47,7 @@ public class Project {
             String projectDescription) {
         this.projectName = projectName;
         this.projectDescription = projectDescription;
+        
     }
 
     public Project () {
@@ -84,6 +85,14 @@ public class Project {
 
     public void setManageProjects(List<ManageProject> manageProjects) {
         this.manageProjects = manageProjects;
+    }
+
+    public String getProjectAdminAuthority() {
+        return "PROJECT_ADMIN" + ":" + this.projectId.toString();
+    }
+
+    public String getProjectAuthority() {
+        return "PROJECT" + ":" + this.projectId.toString();
     }
 
     @Override

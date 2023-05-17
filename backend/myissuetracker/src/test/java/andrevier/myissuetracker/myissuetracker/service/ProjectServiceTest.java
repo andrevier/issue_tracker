@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import andrevier.myissuetracker.myissuetracker.dao.AuthorityRepository;
 import andrevier.myissuetracker.myissuetracker.dao.IssueRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ManageProjectRepository;
 import andrevier.myissuetracker.myissuetracker.dao.ProjectRepository;
@@ -19,6 +20,7 @@ import andrevier.myissuetracker.myissuetracker.dto.IssueRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequest;
 import andrevier.myissuetracker.myissuetracker.dto.ProjectRequestDto;
 import andrevier.myissuetracker.myissuetracker.dto.UserRequest;
+import andrevier.myissuetracker.myissuetracker.model.Authority;
 import andrevier.myissuetracker.myissuetracker.model.UserData;
 
 @SpringBootTest
@@ -39,7 +41,9 @@ public class ProjectServiceTest {
     private UserService userService;
     @Autowired
     private IssueRepository issueRepository;
-
+    @Autowired
+    private AuthorityRepository authorityRepository;
+    
     @Test
     public void testInitializatiaon() {
         assertThat(this.service).isNotNull();
@@ -380,5 +384,76 @@ public class ProjectServiceTest {
         
         assertThat(projectRequested.getDeadline())
             .isEqualTo(projectCreated.getDeadline());
+    }
+
+    @Test
+    void testUserHasAuthorityWhenCreatesAProject() {
+        LocalDateTime startingTime = LocalDateTime.of(2023,5,10,9,50);
+
+        LocalDateTime deadline = startingTime.plusMonths(10);
+
+        ProjectRequest project = new ProjectRequest(
+            "Wake up early in the morning.",
+            "Schedule to wake up early every day.",
+            startingTime,
+            deadline);
+        
+        // For the user.
+        UserData user1 = this.userRepository.save(
+            new UserData(
+                "Camargo Rivera Goes",
+                "carigoes24",
+                "carigo@gmail.com"));
+        
+        // When a project is created and the authorities are checked.
+        ProjectRequest projectCreated = this.service
+            .createProject(project, user1.getUserId());
+
+        List<Authority> authorities = this.authorityRepository
+            .findAllAuthoritiesWithRole(
+                "PROJECT_ADMIN:" + project.getProjectId().toString());
+        
+        // Asserts.
+        assertThat(authorities.size()).isEqualTo(1);
+        assertThat(authorities.get(0).getAuthority()).isEqualTo(
+            "PROJECT_ADMIN:" + project.getProjectId().toString()
+        );
+    }
+
+    @Test
+    void testDeleteAuthorityWhenProjectIsDeleted() {
+        // Test if an authority of a project is deleted when
+        // a project is deleted.
+        // Delete an existing project.
+        LocalDateTime startingTime = LocalDateTime.of(2023,5,10,9,50);
+
+        LocalDateTime deadline = startingTime.plusMonths(10);
+
+        ProjectRequest project = new ProjectRequest(
+            "Go to the beach every week.",
+            "Schedule a day in the week to go to the beach.",
+            startingTime,
+            deadline);
+        
+        // For the user.
+        UserData user1 = this.userRepository.save(
+            new UserData(
+                "Iago Correa Bulhoes",
+                "iabu24",
+                "iacobu@gmail.com"));
+        
+        // The project is created.
+        ProjectRequest projectCreated = this.service
+            .createProject(project, user1.getUserId());
+
+        // When the project is deleted.
+        this.service.deleteProject(projectCreated.getProjectId());
+
+        List<Authority> authorityList = this.authorityRepository
+            .findAllAuthoritiesWithRole(
+                "PROJECT_ADMIN:" + projectCreated.getProjectId());
+        
+        // Asserts.
+        assertThat(authorityList).isEmpty();
     }
 }
